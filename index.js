@@ -19,20 +19,20 @@ if (process.env.NODE_ENV != 'production') {
 }
 //these are the only routes we need
 app.get('/welcome', function(req, res) {
-    if (!req.session.userId) {
-        res.redirect('/welcome')
-    } else {
+    // if (!req.session.userId) {
+    //     res.redirect('/welcome')
+    // } else {
         res.sendFile(__dirname + '/index.html');
-    }
+    // }
 });
 
 //this needs to stay the last route
 app.get('*', function(req, res) {
-    if (!req.session.userId) {
-        res.redirect('/welcome')
-    } else {
+    // if (!req.session.userId) {
+    //     res.redirect('/welcome')
+    // } else {
         res.sendFile(__dirname + '/index.html');
-    }
+    // }
 });
 
 app.listen(8080, function() {
