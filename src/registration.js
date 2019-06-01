@@ -23,9 +23,11 @@ export class Registration extends React.Component {
             pass: this.state.pass
         }).then(
             ({data}) => {
-                if (data.success) {
+                if (data.userId) {
+                    // console.log("hasId", data.userId);
                     // location.href = "/";
-                } else {
+                } else if (data.error){
+                    console.log("hasNoId");
                     this.setState({
                         error: "Oops! Something went wrong, please try again!"
                     })
@@ -40,7 +42,7 @@ export class Registration extends React.Component {
                 <h1> Welcome to Munity </h1>
                 <img src="./logo.png" />
                 <p> Join the rebellion! </p>
-                <p>{this.state.error} </p>
+                <p> {this.state.error} </p>
                 <input name="first" placeholder="first" onChange={e => this.handleChange(e)
                 } />
                 <input name="last" placeholder="last" onChange={e => this.handleChange(e)

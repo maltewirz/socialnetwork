@@ -4,12 +4,19 @@ const bc = require('./utils/bc');
 const app = express();
 //compress responses that can be compressed with gzip
 const compression = require('compression');
+const cookieSession = require('cookie-session');
+//is path ncessary?
+const path = require("path");
 
 app.use(compression());
 //this enables to server e.g. the logo
 app.use(express.static("./public"));
 //express.json enables transfering the body object
 app.use(express.json())
+app.use(cookieSession({
+    secret: `I'm always haaaapy.`,
+    maxAge: 1000 * 60 * 60 * 24 * 14
+}));
 
 //only 2 servers with proxy in dev, in prodution it reads bundle.js
 if (process.env.NODE_ENV != 'production') {
@@ -23,41 +30,56 @@ if (process.env.NODE_ENV != 'production') {
     app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//////////ROUTING BELOW///////////////////
+//////////ROUTING MIDDLEWARE///////////////////
+app.use((req, res, next) => {
+    if (!req.session.userId && req.url != "/welcome") {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + '/index.html')
+    }
+})
 
+//these are the only routes we need
+// app.get('/welcome', function(req, res) {
+//     console.log("welcome route tes",req.session.userId);
+//     if (!req.session.userId) {
+//         console.log("do i get here 1");
+//         res.sendFile(__dirname + '/index.html')
+//         // res.redirect('/welcome')
+//     } else {
+//         console.log("do i get here 2");
+//         res.sendFile(__dirname + '/index.html');
+//     }
+// });
+
+//this needs to stay the last route
+// app.get('*', function(req, res) {
+//     if (!req.session.userId) {
+//         console.log("do i get here 3");
+//         res.redirect('/welcome')
+//     } else {
+//         console.log("do i get here 4");
+//         res.sendFile(__dirname + '/index.html');
+//     }
+// });
+
+//////////
 app.post("/register", function(req, res) {
     let {first, last, email, pass} = req.body;
     bc.hashPassword(pass).then(pass => {
         db.addUser(first, last, email, pass).then(resp => {
-            console.log("ID from db entry", resp.rows[0].id);
-            res.json({success: true});
+            req.session.userId = resp.rows[0].id;
+            res.json({userId: resp.rows[0].id});
+
         }).catch(err => {
             console.log('err from db.addUser', err);
-            res.json({success: false});
+            res.json({error: true});
         })
     }).catch(err => {
         console.log('err from bc.hashPassword', err);
     })
 });
 
-
-//these are the only routes we need
-app.get('/welcome', function(req, res) {
-    // if (!req.session.userId) {
-    //     res.redirect('/welcome')
-    // } else {
-        res.sendFile(__dirname + '/index.html');
-    // }
-});
-
-//this needs to stay the last route
-app.get('*', function(req, res) {
-    // if (!req.session.userId) {
-        res.redirect('/welcome')
-    // } else {
-        // res.sendFile(__dirname + '/index.html');
-    // }
-});
 
 app.listen(8080, function() {
     console.log("I'm listening on 8080 and proxy on 8081.");
