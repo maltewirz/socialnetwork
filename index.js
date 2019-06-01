@@ -5,6 +5,7 @@ const app = express();
 const compression = require('compression');
 
 app.use(compression());
+app.use(express.static("./public"));
 
 //only 2 servers with proxy in dev, in prodution it reads bundle.js
 if (process.env.NODE_ENV != 'production') {
@@ -29,9 +30,9 @@ app.get('/welcome', function(req, res) {
 //this needs to stay the last route
 app.get('*', function(req, res) {
     // if (!req.session.userId) {
-    //     res.redirect('/welcome')
+        res.redirect('/welcome')
     // } else {
-        res.sendFile(__dirname + '/index.html');
+        // res.sendFile(__dirname + '/index.html');
     // }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Logo from '../public/logo.png';
 
 export class Registration extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ export class Registration extends React.Component {
     }
 
     handleChange({ target }) {
-        this.[target.name] = target.value;
+        this[target.name] = target.value;
     }
 
     submit() {
@@ -31,12 +32,16 @@ export class Registration extends React.Component {
     render() {
         return (
             <div>
+                <h1> Welcome to Munity </h1>
+                <div> <Logo /> </div>
+                <p> Join the rebellion! </p>
                 <input className="first" onChange={e => this.handleChange(e)
-                }} />
+                } />
                 <input name="last" />
                 <input name="email" />
                 <input name="pass" />
                 <button onClick={e => this.submit()}>submit</button>
+                <a href="#"> Login </a>
             </div>
         )
     }
