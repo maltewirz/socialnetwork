@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import Logo from '../public/logo.png';
+import Logo from './logo.png';
+import { Link } from 'react-router-dom';
+
 
 export class Registration extends React.Component {
     constructor(props) {
