@@ -1,11 +1,15 @@
 const express = require('express');
-
+const db = require('./utils/db');
+const bc = require('./utils/bc');
 const app = express();
 //compress responses that can be compressed with gzip
 const compression = require('compression');
 
 app.use(compression());
+//this enables to server e.g. the logo
 app.use(express.static("./public"));
+//express.json enables transfering the body object
+app.use(express.json())
 
 //only 2 servers with proxy in dev, in prodution it reads bundle.js
 if (process.env.NODE_ENV != 'production') {
@@ -18,6 +22,21 @@ if (process.env.NODE_ENV != 'production') {
 } else {
     app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+
+//////////ROUTING BELOW///////////////////
+
+app.post("/register", function(req, res) {
+    let {first, last, email, pass} = req.body;
+    bc.hashPassword(pass).then(pass => {
+        db.addUser(first, last, email, pass).then(resp => {
+            console.log("ID from db entry", resp.rows[0].id);
+        }).catch(err => {
+            console.log(err);
+        })
+    })
+});
+
+
 //these are the only routes we need
 app.get('/welcome', function(req, res) {
     // if (!req.session.userId) {

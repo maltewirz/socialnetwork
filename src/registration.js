@@ -9,15 +9,22 @@ export class Registration extends React.Component {
     }
 
     handleChange({ target }) {
-        this[target.name] = target.value;
+        this.setState({
+            [target.name]: target.value
+        }
+        );
     }
 
     submit() {
+        console.log("submit route", this.state);
         axios.post("/register", {
             first: this.state.first,
-            last: this.state.last
+            last: this.state.last,
+            email: this.state.email,
+            pass: this.state.pass
         }).then(
             ({data}) => {
+                console.log("data", data);
                 if (data.success) {
                     location.href = "/";
                 } else {
@@ -35,13 +42,16 @@ export class Registration extends React.Component {
                 <h1> Welcome to Munity </h1>
                 <img src="./logo.png" />
                 <p> Join the rebellion! </p>
-                <input className="first" onChange={e => this.handleChange(e)
+                <input name="first" placeholder="first" onChange={e => this.handleChange(e)
                 } />
-                <input name="last" />
-                <input name="email" />
-                <input name="pass" />
+                <input name="last" placeholder="last" onChange={e => this.handleChange(e)
+                } />
+                <input name="email" placeholder="email" onChange={e => this.handleChange(e)
+                } />
+                <input name="pass" placeholder="pass" onChange={e => this.handleChange(e)
+                } />
                 <button onClick={e => this.submit()}>submit</button>
-                <a href="#"> Login </a>
+                <p>Already a member? <a href="#"> Login </a></p>
             </div>
         )
     }
