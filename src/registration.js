@@ -16,7 +16,6 @@ export class Registration extends React.Component {
     }
 
     submit() {
-        console.log("submit route", this.state);
         axios.post("/register", {
             first: this.state.first,
             last: this.state.last,
@@ -24,12 +23,11 @@ export class Registration extends React.Component {
             pass: this.state.pass
         }).then(
             ({data}) => {
-                console.log("data", data);
                 if (data.success) {
-                    location.href = "/";
+                    // location.href = "/";
                 } else {
                     this.setState({
-                        error: true
+                        error: "Oops! Something went wrong, please try again!"
                     })
                 }
             }
@@ -42,6 +40,7 @@ export class Registration extends React.Component {
                 <h1> Welcome to Munity </h1>
                 <img src="./logo.png" />
                 <p> Join the rebellion! </p>
+                <p>{this.state.error} </p>
                 <input name="first" placeholder="first" onChange={e => this.handleChange(e)
                 } />
                 <input name="last" placeholder="last" onChange={e => this.handleChange(e)

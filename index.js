@@ -30,9 +30,13 @@ app.post("/register", function(req, res) {
     bc.hashPassword(pass).then(pass => {
         db.addUser(first, last, email, pass).then(resp => {
             console.log("ID from db entry", resp.rows[0].id);
+            res.json({success: true});
         }).catch(err => {
-            console.log(err);
+            console.log('err from db.addUser', err);
+            res.json({success: false});
         })
+    }).catch(err => {
+        console.log('err from bc.hashPassword', err);
     })
 });
 
