@@ -37,12 +37,13 @@ export class Registration extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1> Welcome to Munity </h1>
-                <p> Join the rebellion! </p>
+            <div className="regWrapper">
+                <h1> Welcome to Hackspace</h1>
                 <div>
                     <Logo />
                 </div>
+                <p> Join the rebellion! </p>
+
                 <p> {this.state.error} </p>
                 <input
                     name="first"
