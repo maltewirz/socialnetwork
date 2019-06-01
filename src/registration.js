@@ -1,7 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Logo from './logo.png';
-import { Link } from 'react-router-dom';
 
 
 export class Registration extends React.Component {
@@ -35,7 +33,7 @@ export class Registration extends React.Component {
         return (
             <div>
                 <h1> Welcome to Munity </h1>
-                <div> <Logo /> </div>
+                <img src="./logo.png" />
                 <p> Join the rebellion! </p>
                 <input className="first" onChange={e => this.handleChange(e)
                 } />
