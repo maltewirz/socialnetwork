@@ -6,9 +6,12 @@ import { Login } from "./login";
 export class Welcome extends React.Component {
     render() {
         return (
-            <div>
-                <Registration />
-            </div>
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
         );
     }
 }
