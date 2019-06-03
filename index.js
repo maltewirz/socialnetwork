@@ -78,7 +78,7 @@ app.post("/register", function(req, res) {
             db.addUser(first, last, email, passHash)
                 .then(resp => {
                     req.session.userId = resp.rows[0].id;
-                    res.json({ userId: resp.rows[0].id });
+                    res.json({ error: false });
                 })
                 .catch(err => {
                     console.log("err from db.addUser", err);
@@ -93,7 +93,6 @@ app.post("/register", function(req, res) {
 
 app.post("/login", function(req, res) {
     let { email, pass } = req.body;
-    console.log("req.body", req.body);
     db.getEmailPassword(email)
         .then(dbEmail => {
             if (dbEmail.rows[0] != undefined) {
