@@ -30,20 +30,16 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//////////ROUTING Redirects
-app.get("/welcome", function(req, res) {
-    if (req.session.userId) {
-        res.redirect("/");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
-});
-
-app.get("*", function(req, res) {
-    if (!req.session.userId) {
+//Global redirect for unregistered users
+app.use((req, res, next) => {
+    if (
+        !req.session.userId &&
+        req.url != "/welcome" &&
+        req.url != "/register"
+    ) {
         res.redirect("/welcome");
     } else {
-        res.sendFile(__dirname + "/index.html");
+        next();
     }
 });
 
@@ -64,6 +60,10 @@ app.post("/register", function(req, res) {
         .catch(err => {
             console.log("err from bc.hashPassword", err);
         });
+});
+
+app.get("*", function(req, res) {
+    res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(8080, function() {
