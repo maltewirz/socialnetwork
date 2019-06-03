@@ -29,7 +29,7 @@ export class Registration extends React.Component {
                 } else if (data.error) {
                     console.log("hasNoId");
                     this.setState({
-                        error: "Oops! Something went wrong, please try again!"
+                        error: "Something went wrong, please try again!"
                     });
                 }
             });

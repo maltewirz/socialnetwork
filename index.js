@@ -44,7 +44,8 @@ app.use((req, res, next) => {
     if (
         !req.session.userId &&
         req.url != "/welcome" &&
-        req.url != "/register"
+        req.url != "/register" &&
+        req.url != "/login"
     ) {
         res.redirect("/welcome");
     } else {
@@ -68,6 +69,33 @@ app.post("/register", function(req, res) {
         })
         .catch(err => {
             console.log("err from bc.hashPassword", err);
+        });
+});
+
+app.post("/login", function(req, res) {
+    let { email, password } = req.body;
+    console.log("backend", req.body);
+    db.getEmailPassword(email)
+        .then(dbEmail => {
+            console.log(dbEmail);
+            console.log("just handle the error here with undefinded stfuf");
+            let passwordDb = dbEmail.rows[0].password;
+            bc.checkPassword(password, passwordDb)
+                .then(authTrue => {
+                    if (authTrue) {
+                        req.session.userId = dbEmail.rows[0].id;
+                        res.json({ error: false });
+                    } else {
+                        res.json({ error: true });
+                    }
+                })
+                .catch(err => {
+                    console.log("err in checkPassword", err);
+                });
+        })
+        .catch(err => {
+            console.log("err in getEmailPassword", err);
+            res.json({ error: true });
         });
 });
 
