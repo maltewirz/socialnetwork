@@ -27,6 +27,15 @@ app.use((req, res, next) => {
     next();
 });
 
+//Middleware: redirects for logged in users
+function checkLoggedIn(req, res, next) {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        next();
+    }
+}
+
 //Middleware: DEV with proxy PROD w/o
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -51,6 +60,11 @@ app.use((req, res, next) => {
     } else {
         next();
     }
+});
+
+//////////////////// ROUTES below
+app.get("/welcome", checkLoggedIn, function(req, res, next) {
+    next();
 });
 
 app.post("/register", function(req, res) {

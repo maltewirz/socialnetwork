@@ -27,7 +27,6 @@ export class Registration extends React.Component {
                 if (data.userId) {
                     location.href = "/";
                 } else if (data.error) {
-                    console.log("hasNoId");
                     this.setState({
                         error: "Something went wrong, please try again!"
                     });
@@ -63,6 +62,7 @@ export class Registration extends React.Component {
                 <input
                     name="pass"
                     placeholder="pass"
+                    type="password"
                     onChange={e => this.handleChange(e)}
                 />
                 <button onClick={e => this.submit()}>submit</button>
