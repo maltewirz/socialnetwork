@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "./axios";
+import { Logo } from "./logo";
+import { Link } from "react-router-dom";
 
 export class Login extends React.Component {
     constructor(props) {
@@ -33,7 +35,11 @@ export class Login extends React.Component {
     render() {
         return (
             <div className="regWrapper">
-                <h1> Please Login</h1>
+                <h1> Welcome to Hackspace</h1>
+                <div>
+                    <Logo />
+                </div>
+                <h2> Please Login</h2>
                 <p> {this.state.error} </p>
                 <input
                     name="email"
@@ -46,6 +52,9 @@ export class Login extends React.Component {
                     onChange={e => this.handleChange(e)}
                 />
                 <button onClick={e => this.submit()}> submit</button>
+                <p>
+                    Not yet a member? <Link to="/"> Registration </Link>
+                </p>
             </div>
         );
     }

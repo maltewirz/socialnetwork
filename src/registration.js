@@ -41,7 +41,7 @@ export class Registration extends React.Component {
                 <div>
                     <Logo />
                 </div>
-                <p> Join the rebellion! </p>
+                <h2> Join the rebellion! </h2>
 
                 <p> {this.state.error} </p>
                 <input
