@@ -19,7 +19,7 @@ export class Login extends React.Component {
         axios
             .post("/login", {
                 email: this.state.email,
-                password: this.state.password
+                pass: this.state.pass
             })
             .then(resp => {
                 if (resp.data.error) {
@@ -47,7 +47,7 @@ export class Login extends React.Component {
                     onChange={e => this.handleChange(e)}
                 />
                 <input
-                    name="password"
+                    name="pass"
                     placeholder="password"
                     type="password"
                     onChange={e => this.handleChange(e)}

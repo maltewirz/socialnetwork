@@ -92,12 +92,13 @@ app.post("/register", function(req, res) {
 });
 
 app.post("/login", function(req, res) {
-    let { email, password } = req.body;
+    let { email, pass } = req.body;
+    console.log("req.body", req.body);
     db.getEmailPassword(email)
         .then(dbEmail => {
             if (dbEmail.rows[0] != undefined) {
                 let passwordDb = dbEmail.rows[0].password;
-                bc.checkPassword(password, passwordDb)
+                bc.checkPassword(pass, passwordDb)
                     .then(authTrue => {
                         if (authTrue) {
                             req.session.userId = dbEmail.rows[0].id;
