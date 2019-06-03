@@ -24,7 +24,6 @@ export class Registration extends React.Component {
             })
             .then(({ data }) => {
                 if (data.userId) {
-                    console.log("hasId", data.userId);
                     location.href = "/";
                 } else if (data.error) {
                     console.log("hasNoId");
