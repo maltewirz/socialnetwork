@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios"; // changed to ./axios for CSURF support
 import { Logo } from "./logo";
 
 export class Registration extends React.Component {

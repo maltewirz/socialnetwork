@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./utils/db");
 const bc = require("./utils/bc");
+const csurf = require("csurf");
 const app = express();
 //compress responses that can be compressed with gzip
 const compression = require("compression");
@@ -17,8 +18,16 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
+app.use(csurf());
 
-//only 2 servers with proxy in dev, in prodution it reads bundle.js
+//Middleware: csrfToken and forbid Header iframe
+app.use((req, res, next) => {
+    res.cookie("mytoken", req.csrfToken());
+    res.setHeader("x-frame-options", "DENY");
+    next();
+});
+
+//Middleware: DEV with proxy PROD w/o
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
@@ -30,7 +39,7 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//Global redirect for unregistered users
+//MiddlewareGlobal redirect for unregistered users
 app.use((req, res, next) => {
     if (
         !req.session.userId &&
