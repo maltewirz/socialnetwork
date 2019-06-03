@@ -69,6 +69,10 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
 
 app.post("/register", function(req, res) {
     let { first, last, email, pass } = req.body;
+    if (pass == undefined) {
+        res.json({ error: true });
+        return;
+    }
     bc.hashPassword(pass)
         .then(passHash => {
             db.addUser(first, last, email, passHash)
@@ -83,6 +87,7 @@ app.post("/register", function(req, res) {
         })
         .catch(err => {
             console.log("err from bc.hashPassword", err);
+            res.json({ error: true });
         });
 });
 
