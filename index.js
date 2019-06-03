@@ -31,13 +31,18 @@ if (process.env.NODE_ENV != "production") {
 }
 
 //////////ROUTING Redirects
+app.get("/welcome", function(req, res) {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
 app.get("*", function(req, res) {
-    console.log("req.session.userId in *", req.session.userId);
-    if (!req.session.userId && req.url != "/welcome") {
-        console.log("redirecto to welcome");
+    if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
-        console.log("sending homepage");
         res.sendFile(__dirname + "/index.html");
     }
 });
@@ -45,8 +50,8 @@ app.get("*", function(req, res) {
 app.post("/register", function(req, res) {
     let { first, last, email, pass } = req.body;
     bc.hashPassword(pass)
-        .then(pass => {
-            db.addUser(first, last, email, pass)
+        .then(passHash => {
+            db.addUser(first, last, email, passHash)
                 .then(resp => {
                     req.session.userId = resp.rows[0].id;
                     res.json({ userId: resp.rows[0].id });
