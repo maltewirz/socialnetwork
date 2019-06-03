@@ -20,14 +20,12 @@ export class Login extends React.Component {
                 password: this.state.password
             })
             .then(resp => {
-                console.log("resp from submit", resp);
-                if (resp.error) {
-                    console.log("errror");
+                if (resp.data.error) {
                     this.setState({
                         error: "Something went wrong, please try again!"
                     });
                 } else {
-                    console.log("you got it");
+                    location.href = "/";
                 }
             });
     }
@@ -36,6 +34,7 @@ export class Login extends React.Component {
         return (
             <div className="regWrapper">
                 <h1> Please Login</h1>
+                <p> {this.state.error} </p>
                 <input
                     name="email"
                     placeholder="email"
