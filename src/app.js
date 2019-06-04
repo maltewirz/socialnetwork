@@ -15,8 +15,8 @@ export class App extends React.Component {
         });
     }
     render() {
-        if (!this.state.id) { //is this correct?
-            <img src="/spinner.gif"/>;
+        if (!this.state.id) { 
+            return <img src="/spinner.gif"/>;
         }
         return (
             <div>
@@ -27,9 +27,10 @@ export class App extends React.Component {
                     last={this.state.last}
                     clickHandler={e => this.setState({ uploaderVisible: true })}
                 />
-                <Uploader changeImage={img => this.setState({
-                    pic_url: img
-                })}/>
+                {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
+                    pic_url: img,
+                    uploaderVisible: false
+                })}/>}
             </div>
         );
     }

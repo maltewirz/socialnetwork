@@ -31,7 +31,7 @@ module.exports.getEmailPassword = function getEmailPassword(email) {
 module.exports.getUser = function getUser(id) {
     return db.query(
         `
-        SELECT first, last, bio, pic_url
+        SELECT id, first, last, bio, pic_url
         FROM users
         WHERE id = $1;
         `, [id]
