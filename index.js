@@ -1,11 +1,12 @@
 const express = require("express");
+const app = express();
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 const csurf = require("csurf");
-const app = express();
 //compress responses that can be compressed with gzip
 const compression = require("compression");
 const cookieSession = require("cookie-session");
+const { cookieSecret } = require("./secrets/cookieSecret");
 
 app.use(compression());
 //this enables to server e.g. the logo
@@ -14,7 +15,7 @@ app.use(express.static("./public"));
 app.use(express.json());
 app.use(
     cookieSession({
-        secret: `I'm always haaaapy.`,
+        secret: cookieSecret,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
