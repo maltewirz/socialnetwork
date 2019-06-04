@@ -120,6 +120,13 @@ app.post("/login", function(req, res) {
         });
 });
 
+
+// res.json({
+//     first: "funky",
+//     localhost
+//     imageUrl: imageUrl || 'default.jpg';
+// });
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });

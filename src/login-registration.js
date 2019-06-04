@@ -77,7 +77,6 @@ function LoginForm({ handleInput, handleSubmit, error }) {
 }
 
 function RegistrationForm({ handleInput, handleSubmit, error }) {
-    console.log("here in reg form");
     return (
         <div className="regWrapper">
             <h1> Welcome to Hackspace</h1>
