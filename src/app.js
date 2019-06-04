@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import { Logo } from "./logo";
 import { ProfilePic } from "./profilepic";
+import { Uploader } from "./uploader";
 
 export class App extends React.Component {
     constructor(props) {
@@ -14,10 +15,9 @@ export class App extends React.Component {
         });
     }
     render() {
-        //when render is called only the diff will be rendered
-        // if (!this.state.id) {
-        //     return <img src="/spinner.gif"/>;
-        // }
+        if (!this.state.id) { //is this correct?
+            <img src="/spinner.gif"/>;
+        }
         return (
             <div>
                 <Logo />
@@ -27,6 +27,7 @@ export class App extends React.Component {
                     last={this.state.last}
                     clickHandler={e => this.setState({ uploaderVisible: true })}
                 />
+                <Uploader />
             </div>
         );
     }
