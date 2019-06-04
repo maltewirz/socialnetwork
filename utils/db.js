@@ -27,3 +27,14 @@ module.exports.getEmailPassword = function getEmailPassword(email) {
         [email]
     );
 };
+
+// first, last, image, bio only
+module.exports.getUser = function getUser(id) {
+    return db.query(
+        `
+        SELECT first, last, bio, pic_url
+        FROM users
+        WHERE id = $1;
+        `, [id]
+    );
+}

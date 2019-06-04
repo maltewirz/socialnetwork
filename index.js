@@ -120,6 +120,14 @@ app.post("/login", function(req, res) {
         });
 });
 
+app.get("/user", function(req, res) {
+    db.getUser(req.session.userId).then(resp => {
+        res.json(resp.rows[0])
+    }).catch(err => {
+        console.log("err in db.getUser",err);
+    })
+})
+
 
 // res.json({
 //     first: "funky",
