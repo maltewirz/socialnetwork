@@ -15,41 +15,20 @@ export class Uploader extends React.Component {
             this.setState({
                 url: resp.data.url
             });
+            console.log(this.props);
             this.props.changeImage(resp.data.url);
         })
     }
 
     render() {
         return (
-            <div>
-                <input type="file" id="file" name="file" accept="image/*" className="inputfield" onChange={e => this.handleInput(e)}/>
-                <label for="file" >Upload</label>
+            <div className="modalWrapper">
+                <div className="modal">
+                    <p> Want to change your image? </p>
+                    <input type="file" id="file" name="file" accept="image/*" className="inputfield" onChange={e => this.handleInput(e)}/>
+                    <label htmlFor="file" className="button" >Upload</label>
+                </div>
             </div>
         );
     }
 }
-
-{/*
-
-    ////////
-
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.url = url;
-    }
-
-    handleInput({ target }) {
-        this.setState({
-            [target.name]: target.value
-        });
-    }
-
-
-    <p class="uploadArea">
-        <input type="file" id="file" name="file" accept="image/*" @change='handleFileChange' class="inputfile">
-        <label for="file" class="inputfileEX">file</label>
-        <button @click.prevent.default="uploadFile" class="bubble-format">upload</button>
-    </p>
-
-    */}

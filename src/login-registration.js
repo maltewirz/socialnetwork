@@ -68,7 +68,7 @@ function LoginForm({ handleInput, handleSubmit, error }) {
                 type="password"
                 onChange={e => handleInput(e)}
             />
-            <button onClick={e => handleSubmit(e)}> submit</button>
+            <button className="button" onClick={e => handleSubmit(e)}> submit</button>
             <p>
                 Not yet a member? <Link to="/"> Registration </Link>
             </p>
@@ -106,7 +106,7 @@ function RegistrationForm({ handleInput, handleSubmit, error }) {
                 type="password"
                 onChange={e => handleInput(e)}
             />
-            <button onClick={e => handleSubmit(e)}>submit</button>
+            <button className="button" onClick={e => handleSubmit(e)}>submit</button>
             <p>
                 Already a member? <Link to="/login"> Login </Link>
             </p>
