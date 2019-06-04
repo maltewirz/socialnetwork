@@ -28,7 +28,6 @@ module.exports.getEmailPassword = function getEmailPassword(email) {
     );
 };
 
-// first, last, image, bio only
 module.exports.getUser = function getUser(id) {
     return db.query(
         `
@@ -37,4 +36,12 @@ module.exports.getUser = function getUser(id) {
         WHERE id = $1;
         `, [id]
     );
+}
+
+module.exports.addImage = function addImage(url, id) {
+    return db.query(`
+        UPDATE users
+        SET pic_url = ($1)
+        WHERE id=$2;
+        `,[url, id]);
 }

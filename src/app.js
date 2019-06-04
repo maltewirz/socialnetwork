@@ -22,12 +22,14 @@ export class App extends React.Component {
             <div>
                 <Logo />
                 <ProfilePic
-                    imageUrl={this.state.imageUrl}
+                    imageUrl={this.state.pic_url}
                     first={this.state.first}
                     last={this.state.last}
                     clickHandler={e => this.setState({ uploaderVisible: true })}
                 />
-                <Uploader />
+                <Uploader changeImage={img => this.setState({
+                    pic_url: img
+                })}/>
             </div>
         );
     }

@@ -3,16 +3,33 @@ const app = express();
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 const csurf = require("csurf");
-//compress responses that can be compressed with gzip
-const compression = require("compression");
+const compression = require("compression"); //compress responses w gzip
 const cookieSession = require("cookie-session");
 const { cookieSecret } = require("./secrets/cookieSecret");
-
+const s3 = require("./s3");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+////////////////////////// Modules
 app.use(compression());
-//this enables to server e.g. the logo
-app.use(express.static("./public"));
-//express.json enables transfering the body object
-app.use(express.json());
+app.use(express.static("./public")); //access to logos etc
+app.use(express.json()); // enables req.body
 app.use(
     cookieSession({
         secret: cookieSecret,
@@ -126,6 +143,18 @@ app.get("/user", function(req, res) {
     }).catch(err => {
         console.log("err in db.getUser",err);
     })
+})
+
+app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
+    console.log("success uploading");
+    let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
+    if (req.file) {
+        db.addImage(url, req.session.userId).then(resp => {
+            res.json({
+                url: url || './avatar.png'
+            });
+        })
+    }
 })
 
 
