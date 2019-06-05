@@ -23,17 +23,21 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <Logo />
-                <ProfilePic
-                    imageUrl={this.state.pic_url}
-                    first={this.state.first}
-                    last={this.state.last}
-                    clickHandler={e => this.setState({ uploaderVisible: true })}
-                />
-                {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
-                    pic_url: img,
-                    uploaderVisible: false
-                })}/>}
+                <div className="header">
+                    <Logo />
+                    <ProfilePic
+                        imageUrl={this.state.pic_url}
+                        first={this.state.first}
+                        last={this.state.last}
+                        clickHandler={e => this.setState({ uploaderVisible: true })}
+                    />
+                </div>
+                <div className="uploader">
+                    {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
+                        pic_url: img,
+                        uploaderVisible: false
+                    })}/>}
+                </div>
             </div>
         );
     }
