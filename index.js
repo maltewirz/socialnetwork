@@ -85,85 +85,66 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
     next();
 });
 
-app.post("/register", function(req, res) {
-    let { first, last, email, pass } = req.body;
-    if (pass == undefined) {
-        res.json({ error: true });
-        return;
-    }
-    bc.hashPassword(pass)
-        .then(passHash => {
-            db.addUser(first, last, email, passHash)
-                .then(resp => {
-                    req.session.userId = resp.rows[0].id;
-                    res.json({ error: false });
-                })
-                .catch(err => {
-                    console.log("err from db.addUser", err);
-                    res.json({ error: true });
-                });
-        })
-        .catch(err => {
-            console.log("err from bc.hashPassword", err);
+
+app.post("/register", async (req, res) => {
+    try {
+        let { first, last, email, pass } = req.body;
+        if (pass == undefined) {
             res.json({ error: true });
-        });
+            return;
+        }
+        let passHash = await bc.hashPassword(pass);
+        let resp = await db.addUser(first, last, email, passHash);
+        req.session.userId = resp.rows[0].id;
+        res.json({ error: false });
+    } catch(err) {
+        console.log("err from post /register", err);
+        res.json({ error: true });
+    }
 });
 
-app.post("/login", function(req, res) {
-    let { email, pass } = req.body;
-    db.getEmailPassword(email)
-        .then(dbEmail => {
-            if (dbEmail.rows[0] != undefined) {
-                let passwordDb = dbEmail.rows[0].password;
-                bc.checkPassword(pass, passwordDb)
-                    .then(authTrue => {
-                        if (authTrue) {
-                            req.session.userId = dbEmail.rows[0].id;
-                            res.json({ error: false });
-                        } else {
-                            res.json({ error: true });
-                        }
-                    })
-                    .catch(err => {
-                        console.log("err in checkPassword", err);
-                    });
+
+app.post("/login", async (req, res) => {
+    try {
+        let { email, pass } = req.body;
+        let dbEmail = await db.getEmailPassword(email);
+        if (dbEmail.rows[0] != undefined) {
+            let passwordDb = dbEmail.rows[0].password;
+            let authTrue = await bc.checkPassword(pass, passwordDb);
+            if (authTrue) {
+                req.session.userId = dbEmail.rows[0].id;
+                res.json({ error: false });
             } else {
                 res.json({ error: true });
             }
-        })
-        .catch(err => {
-            console.log("err in getEmailPassword", err);
-            res.json({ error: true });
-        });
+        }
+    } catch(err) {
+        console.log("err in post /login", err);
+    }
 });
 
-app.get("/user", function(req, res) {
-    db.getUser(req.session.userId).then(resp => {
-        res.json(resp.rows[0])
-        console.log("this is the resp from get user",resp.rows[0]);
-    }).catch(err => {
+app.get("/user", async (req, res) => {
+    try {
+        let resp = await db.getUser(req.session.userId);
+        res.json(resp.rows[0]);
+    } catch(err) {
         console.log("err in db.getUser",err);
-    })
-})
-
-app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
-    console.log("success uploading");
-    let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
-    if (req.file) {
-        db.addImage(url, req.session.userId).then(resp => {
-            res.json({
-                url: url || './avatar.png'
-            });
-        })
     }
 })
 
-
-// res.json({
-//     first: "funky",
-//     localhost
-//     imageUrl: imageUrl || 'default.jpg';
-// });
+app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
+    let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
+    if (req.file) {
+        try {
+            let resp = await db.addImage(url, req.session.userId);
+            res.json({
+                url: url || './avatar.png'
+            });
+        } catch(err) {
+            console.log("err in post /upload",err);
+        }
+    }
+})
 
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
