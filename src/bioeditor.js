@@ -1,27 +1,35 @@
 import React from "react";
+import axios from "./axios";
 
 export class BioEditor extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {};
+    }
+
+    handleInput({ target} ) {
+        this.setState({
+            bio: target.value
+        });
+    }
+
+    async submit() {
+        try {
+            let resp = await axios.post("/addBio", {
+                bio: this.state.bio
+            });
+            console.log("resp in frontend",resp);
+        } catch(err) {
+            console.log("err in post /addBio", err);
+        }
     }
 
     render() {
         return (
             <div> Bio Information
-                
-                <input type="text" name="bioTextArea" />
-                <button>SAVE</button>
+                <textarea value={this.props.bio} onChange={e => this.handleInput(e)}/>
+                <button type="submit" onClick={e => this.submit()}>SAVE</button>
             </div>
         );
     }
 }
-
-
-<div className="modalWrapper">
-    <div className="modal">
-        <p> Want to change your image? </p>
-        <input type="file" id="file" name="file" accept="image/*" className="inputfield" onChange={e => this.handleInput(e)}/>
-        <label htmlFor="file" className="button" >Upload</label>
-    </div>
-</div>

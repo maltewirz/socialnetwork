@@ -146,6 +146,17 @@ app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
     }
 })
 
+app.post("/addBio", async (req, res) => {
+    try {
+        let resp = await db.addBio(req.body.bio, req.session.userId);
+        console.log("successs adding bio");
+    } catch(err) {
+        console.log(`"err in app.post/addBio"`, err);
+    }
+
+
+})
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
