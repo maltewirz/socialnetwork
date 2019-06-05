@@ -7,43 +7,65 @@ export class BioEditor extends React.Component{
         this.state = {};
     }
 
-    handleInput({ target} ) {
-        this.setState({
-            bio: target.value
-        });
-    }
-
     async submit() {
+        if (this.state.bio == "" || this.state.bio == undefined) {
+            this.setState({
+                bio: null
+            })
+        }
         try {
             let resp = await axios.post("/addBio", {
                 bio: this.state.bio
             });
-            console.log("resp in frontend",resp.data.success);
             if (resp.data.success) {
-                console.log("close the editor here");
                 this.props.setBio(this.state.bio)
+                this.setState({
+                    bioVisible: false,
+                    bio: ""
+                })
+
             }
         } catch(err) {
             console.log("err in post /addBio", err);
         }
     }
 
-    render() {
-        return (
-            <div> Bio Information
+    openBioEditor() {
+        this.setState({
+            bioVisible: true
+        })
+    }
 
-                {!this.props.bio &&
+    handleInput({ target} ) {
+        this.setState({
+            bio: target.value
+        });
+
+    }
+
+    render() {
+
+        return (
+
+            <div> Bio Information
+                {this.props.bio && !this.state.bioVisible &&
                     <div>
-                        <textarea onChange={e => this.handleInput(e)}/>
-                        <button type="submit" onClick={e => this.submit()}>SAVE</button>
-                     </div>
-                }
-                {this.props.bio &&
-                    <div>
-                        {this.props.bio} 
+                        {this.props.bio}
+                        <button onClick={e => this.openBioEditor()}> Edit Bio </button>
                     </div>
                 }
-
+                {!this.props.bio && !this.state.bioVisible &&
+                    <div> You have no Bio!
+                        <button onClick={e => this.openBioEditor()}> Add Bio </button>
+                    </div>
+                }
+                {this.state.bioVisible &&
+                    <div>
+                        <p>enter your bio here</p>
+                        <textarea defaultValue={this.props.bio} onChange={e => this.handleInput(e)}/>
+                        <button type="submit" onClick={e => this.submit()}>Save</button>
+                     </div>
+                }
             </div>
         );
     }

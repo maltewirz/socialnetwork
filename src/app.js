@@ -42,6 +42,7 @@ export class App extends React.Component {
                         bioEditor={
                             <BioEditor
                                 bio={this.state.bio}
+                                bioVisible={this.state.bioVisible}
                                 setBio={bio => this.setState({
                                     bio: bio
                                 })}
