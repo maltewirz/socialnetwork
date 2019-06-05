@@ -4,6 +4,7 @@ import { Logo } from "./logo";
 import { Uploader } from "./uploader";
 import { Profile } from "./profile";
 import { ProfilePic } from "./profilepic";
+import { BioEditor } from "./bioeditor";
 
 
 export class App extends React.Component {
@@ -28,12 +29,22 @@ export class App extends React.Component {
                 <div className="header">
                     <Logo />
                     <Profile
+                        first={this.state.first}
+                        last={this.state.last}
                         profilePic={
                             <ProfilePic
                                 imageUrl={this.state.pic_url}
                                 first={this.state.first}
                                 last={this.state.last}
                                 clickHandler={e => this.setState({ uploaderVisible: true })}
+                            />
+                        }
+                        bioEditor={
+                            <BioEditor
+                                bio={this.state.bio}
+                                setBio={bio => this.setState({
+                                    bio: bio
+                                })}
                             />
                         }
                     />

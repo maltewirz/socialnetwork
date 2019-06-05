@@ -54,3 +54,13 @@ input {
     align-items: center;
     border: 1px solid black;
 }
+
+.profileBox {
+    width: 300px;
+    height: 400px;
+    border: 1px solid black;
+}
+
+.profileBox img {
+    height: 150px;
+}
