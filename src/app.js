@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "./axios";
 import { Logo } from "./logo";
-import { ProfilePic } from "./profilepic";
 import { Uploader } from "./uploader";
+import { Profile } from "./profile";
+import { ProfilePic } from "./profilepic";
+
 
 export class App extends React.Component {
     constructor(props) {
@@ -25,11 +27,15 @@ export class App extends React.Component {
             <div>
                 <div className="header">
                     <Logo />
-                    <ProfilePic
-                        imageUrl={this.state.pic_url}
-                        first={this.state.first}
-                        last={this.state.last}
-                        clickHandler={e => this.setState({ uploaderVisible: true })}
+                    <Profile
+                        profilePic={
+                            <ProfilePic
+                                imageUrl={this.state.pic_url}
+                                first={this.state.first}
+                                last={this.state.last}
+                                clickHandler={e => this.setState({ uploaderVisible: true })}
+                            />
+                        }
                     />
                 </div>
                 <div className="uploader">
