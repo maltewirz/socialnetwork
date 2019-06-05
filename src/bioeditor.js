@@ -18,7 +18,7 @@ export class BioEditor extends React.Component{
             let resp = await axios.post("/addBio", {
                 bio: this.state.bio
             });
-            console.log("resp in frontend",resp);
+            console.log("resp in frontend",resp.data.success);
         } catch(err) {
             console.log("err in post /addBio", err);
         }
