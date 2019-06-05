@@ -19,6 +19,10 @@ export class BioEditor extends React.Component{
                 bio: this.state.bio
             });
             console.log("resp in frontend",resp.data.success);
+            if (resp.data.success) {
+                console.log("close the editor here");
+                this.props.setBio(this.state.bio)
+            }
         } catch(err) {
             console.log("err in post /addBio", err);
         }
@@ -27,8 +31,19 @@ export class BioEditor extends React.Component{
     render() {
         return (
             <div> Bio Information
-                <textarea value={this.props.bio} onChange={e => this.handleInput(e)}/>
-                <button type="submit" onClick={e => this.submit()}>SAVE</button>
+
+                {!this.props.bio &&
+                    <div>
+                        <textarea onChange={e => this.handleInput(e)}/>
+                        <button type="submit" onClick={e => this.submit()}>SAVE</button>
+                     </div>
+                }
+                {this.props.bio &&
+                    <div>
+                        {this.props.bio} 
+                    </div>
+                }
+
             </div>
         );
     }
