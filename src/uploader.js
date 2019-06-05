@@ -8,16 +8,15 @@ export class Uploader extends React.Component {
         this.state= {};
     }
 
-    handleInput({ target }) {
+    async handleInput({ target }) {
         var formData = new FormData();
-        formData.append("file",target.files[0]) //formdata needed to wrap "file"
-        axios.post("/upload", formData).then(resp => {
-            this.setState({
-                url: resp.data.url
-            });
-            console.log(this.props);
+        formData.append("file",target.files[0]) //formdata to wrap "file"
+        try{
+            let resp = await axios.post("/upload", formData);
             this.props.changeImage(resp.data.url);
-        })
+        } catch(err) {
+            console.log("err in axios post /upload", err);
+        }
     }
 
     render() {

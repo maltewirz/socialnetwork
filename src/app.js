@@ -9,13 +9,16 @@ export class App extends React.Component {
         super(props);
         this.state = {};
     }
-    componentDidMount() {
-        axios.get("/user").then(({ data }) => {
+    async componentDidMount() {
+        try {
+            let { data } = await axios.get("/user");
             this.setState(data);
-        });
+        } catch(err) {
+            console.log("err in axios get /user", err);
+        }
     }
     render() {
-        if (!this.state.id) { 
+        if (!this.state.id) {
             return <img src="/spinner.gif"/>;
         }
         return (

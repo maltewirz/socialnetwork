@@ -18,23 +18,24 @@ function wrapinAuthForm(Component, url) {
                 [target.name]: target.value
             });
         }
-        handleSubmit(e) {
-            axios
-                .post(this.url, {
-                    first: this.state.first,
-                    last: this.state.last,
-                    email: this.state.email,
-                    pass: this.state.pass
-                })
-                .then(({ data }) => {
-                    if (!data.error) {
-                        location.href = "/";
-                    } else if (data.error) {
-                        this.setState({
-                            error: "Something went wrong, please try again!"
+        async handleSubmit(e) {
+            try {
+                let { data } = await axios.post(this.url, {
+                            first: this.state.first,
+                            last: this.state.last,
+                            email: this.state.email,
+                            pass: this.state.pass
                         });
-                    }
-                });
+                if (!data.error) {
+                    location.href = "/";
+                } else if (data.error) {
+                    this.setState({
+                        error: "Something went wrong, please try again!"
+                    });
+                }
+            } catch(err) {
+                console.log("err in handleSubmit", err);
+            }
         }
         render() {
             return (
