@@ -46,6 +46,8 @@ export class App extends React.Component {
                                 path="/"
                                 render={() => (
                                     <Profile
+                                        first={this.state.first}
+                                        last={this.state.last}
                                         profilePic={
                                             <ProfilePic
                                                 imageUrl={this.state.pic_url}
