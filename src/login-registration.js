@@ -18,14 +18,14 @@ function wrapinAuthForm(Component, url) {
                 [target.name]: target.value
             });
         }
-        async handleSubmit(e) {
+        async handleSubmit() {
             try {
                 let { data } = await axios.post(this.url, {
-                            first: this.state.first,
-                            last: this.state.last,
-                            email: this.state.email,
-                            pass: this.state.pass
-                        });
+                    first: this.state.first,
+                    last: this.state.last,
+                    email: this.state.email,
+                    pass: this.state.pass
+                });
                 if (!data.error) {
                     location.href = "/";
                 } else if (data.error) {

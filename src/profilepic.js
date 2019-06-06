@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export function ProfilePic({imageUrl, first, last, clickHandler}) {
     imageUrl = imageUrl || './avatar.png';

@@ -130,13 +130,13 @@ app.get("/user", async (req, res) => {
     } catch(err) {
         console.log("err in db.getUser",err);
     }
-})
+});
 
 app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
     let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
     if (req.file) {
         try {
-            let resp = await db.addImage(url, req.session.userId);
+            await db.addImage(url, req.session.userId);
             res.json({
                 url: url || './avatar.png'
             });
@@ -144,20 +144,18 @@ app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
             console.log("err in post /upload",err);
         }
     }
-})
+});
 
 app.post("/addBio", async (req, res) => {
     try {
-        let resp = await db.addBio(req.body.bio, req.session.userId);
+        await db.addBio(req.body.bio, req.session.userId);
         res.json({
             success: true
         });
     } catch(err) {
         console.log(`"err in app.post/addBio"`, err);
     }
-
-
-})
+});
 
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");

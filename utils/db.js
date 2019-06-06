@@ -36,7 +36,7 @@ module.exports.getUser = function getUser(id) {
         WHERE id=$1;
         `, [id]
     );
-}
+};
 
 module.exports.addImage = function addImage(url, id) {
     return db.query(`
@@ -44,7 +44,7 @@ module.exports.addImage = function addImage(url, id) {
         SET pic_url=($1)
         WHERE id=$2;
         `,[url, id]);
-}
+};
 
 module.exports.addBio = function addBio(bio, id) {
     return db.query(`
@@ -52,4 +52,4 @@ module.exports.addBio = function addBio(bio, id) {
         SET bio=($1)
         WHERE id=$2
         `, [bio, id]);
-}
+};

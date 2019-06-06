@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import axios from "./axios";
 
 
@@ -10,7 +10,7 @@ export class Uploader extends React.Component {
 
     async handleInput({ target }) {
         var formData = new FormData();
-        formData.append("file",target.files[0]) //formdata to wrap "file"
+        formData.append("file",target.files[0]); //formdata to wrap "file"
         try{
             let resp = await axios.post("/upload", formData);
             this.props.changeImage(resp.data.url);
