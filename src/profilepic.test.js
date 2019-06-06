@@ -28,7 +28,6 @@ test('first and last name appear in alt', () => {
 
 test('passing prop onClick will be invoked when user clicks on image', () => {
     const clickHandler = jest.fn();
-    console.log("clickHandler in test",clickHandler);
     const wrapper = shallow(
         <ProfilePic clickHandler={ clickHandler } />
     );
