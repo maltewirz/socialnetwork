@@ -5,6 +5,9 @@ import { Uploader } from "./uploader";
 import { Profile } from "./profile";
 import { ProfilePic } from "./profilepic";
 import { BioEditor } from "./bioeditor";
+import { OtherProfile } from "./otherprofile";
+import { BrowserRouter, Route } from 'react-router-dom';
+
 
 
 export class App extends React.Component {
@@ -27,29 +30,39 @@ export class App extends React.Component {
         return (
             <div>
                 <div >
-
-                    <Profile
-                        logo={<Logo />}
-                        first={this.state.first}
-                        last={this.state.last}
-                        profilePic={
-                            <ProfilePic
-                                imageUrl={this.state.pic_url}
-                                first={this.state.first}
-                                last={this.state.last}
-                                clickHandler={() => this.setState({ uploaderVisible: true })}
+                    <BrowserRouter>
+                        <div>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        logo={<Logo />}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        profilePic={
+                                            <ProfilePic
+                                                imageUrl={this.state.pic_url}
+                                                first={this.state.first}
+                                                last={this.state.last}
+                                                clickHandler={() => this.setState({ uploaderVisible: true })}
+                                            />
+                                        }
+                                        bioEditor={
+                                            <BioEditor
+                                                bio={this.state.bio}
+                                                bioVisible={this.state.bioVisible}
+                                                setBio={bio => this.setState({
+                                                    bio: bio
+                                                })}
+                                            />
+                                        }
+                                    />
+                                )}
                             />
-                        }
-                        bioEditor={
-                            <BioEditor
-                                bio={this.state.bio}
-                                bioVisible={this.state.bioVisible}
-                                setBio={bio => this.setState({
-                                    bio: bio
-                                })}
-                            />
-                        }
-                    />
+                            <Route path="/user/:id" component={OtherProfile} />
+                        </div>
+                    </BrowserRouter>
                 </div>
                 <div className="uploader">
                     {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
