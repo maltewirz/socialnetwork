@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 export class OtherProfile extends React.Component {
     constructor() {
         super();

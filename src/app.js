@@ -29,6 +29,15 @@ export class App extends React.Component {
         }
         return (
             <div>
+                <div className="header">
+                    <Logo />
+                    <ProfilePic
+                        imageUrl={this.state.pic_url}
+                        first={this.state.first}
+                        last={this.state.last}
+                        clickHandler={() => this.setState({ uploaderVisible: true })}
+                    />
+                </div>
                 <div >
                     <BrowserRouter>
                         <div>
@@ -37,9 +46,6 @@ export class App extends React.Component {
                                 path="/"
                                 render={() => (
                                     <Profile
-                                        logo={<Logo />}
-                                        first={this.state.first}
-                                        last={this.state.last}
                                         profilePic={
                                             <ProfilePic
                                                 imageUrl={this.state.pic_url}
@@ -60,7 +66,8 @@ export class App extends React.Component {
                                     />
                                 )}
                             />
-                            <Route path="/user/:id" component={OtherProfile} />
+                            <Route path="/user/:id" component={OtherProfile}
+                            />
                         </div>
                     </BrowserRouter>
                 </div>

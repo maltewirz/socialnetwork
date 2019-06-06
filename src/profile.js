@@ -3,10 +3,6 @@ import React from "react";
 export function Profile({logo, first, last, profilePic, bioEditor}) {
     return (
         <div>
-            <div className="header">
-                { logo }
-                { profilePic }
-            </div>
             <div className="profileBox">
                 <div> { profilePic }</div>
                 <div className="profileBoxBio">
