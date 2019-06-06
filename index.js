@@ -157,8 +157,13 @@ app.post("/addBio", async (req, res) => {
     }
 });
 
-app.get("/otherUser", function(req, res) {
-    console.log("arrive in otheruser backend");
+app.get("/otherUser/:otherId", async (req, res)=> {
+    try {
+        let data = await db.getUser(req.params.otherId);
+        res.json(data.rows[0]);
+    } catch(err) {
+        console.log("err in post /upload",err);
+    }
 });
 
 app.get("*", function(req, res) {

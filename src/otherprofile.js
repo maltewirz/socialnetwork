@@ -8,11 +8,15 @@ export class OtherProfile extends React.Component {
     }
 
     async componentDidMount() {
-        console.log("this.props.match.params.id",this.props.match.params.id);
         let otherId = this.props.match.params.id;
         try {
-            let { data } = await axios.get("/otherUser");
-            console.log("data", data);
+            let { data } = await axios.get(`/otherUser/${otherId}`);
+            this.setState({
+                bio: data.bio,
+                first: data.first,
+                last: data.last,
+                pic_url: data.pic_url
+            });
         } catch(err) {
             console.log("err in OtherProfile", err);
         }
@@ -23,10 +27,11 @@ export class OtherProfile extends React.Component {
             <div>
                 <h1> other profile </h1>
                 <div className="profileBox">
-                    <div> pic here</div>
+                    <div>   <img src={this.state.pic_url} />
+                    </div>
                     <div className="profileBoxBio">
-                        <div className="profileNameBox"> first, last </div>
-                        <div> bio here  </div>
+                        <div className="profileNameBox">{this.state.first} {this.state.last}</div>
+                        <div> {this.state.bio} </div>
                     </div>
                 </div>
             </div>
