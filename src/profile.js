@@ -8,9 +8,11 @@ export function Profile({logo, first, last, profilePic, bioEditor}) {
                 { profilePic }
             </div>
             <div className="profileBox">
-                { profilePic }
-                { first } { last }
-                { bioEditor }
+                <div> { profilePic }</div>
+                <div className="profileBoxBio">
+                    <div className="profileNameBox"> { first } { last }</div>
+                    <div>{ bioEditor } </div>
+                </div>
             </div>
         </div>
     );

@@ -11,18 +11,18 @@ export class BioEditor extends React.Component{
         if (this.state.bio == "" || this.state.bio == undefined) {
             this.setState({
                 bio: null
-            })
+            });
         }
         try {
             let resp = await axios.post("/addBio", {
                 bio: this.state.bio
             });
             if (resp.data.success) {
-                this.props.setBio(this.state.bio)
+                this.props.setBio(this.state.bio);
                 this.setState({
                     bioVisible: false,
                     bio: ""
-                })
+                });
 
             }
         } catch(err) {
@@ -33,7 +33,7 @@ export class BioEditor extends React.Component{
     openBioEditor() {
         this.setState({
             bioVisible: true
-        })
+        });
     }
 
     handleInput({ target} ) {
@@ -47,24 +47,24 @@ export class BioEditor extends React.Component{
 
         return (
 
-            <div> Bio Information
+            <div>
                 {this.props.bio && !this.state.bioVisible &&
                     <div>
                         {this.props.bio}
-                        <button onClick={e => this.openBioEditor()}> Edit Bio </button>
+                        <button onClick={() => this.openBioEditor()}> Edit Bio </button>
                     </div>
                 }
                 {!this.props.bio && !this.state.bioVisible &&
-                    <div> You have no Bio!
-                        <button onClick={e => this.openBioEditor()}> Add Bio </button>
+                    <div> Add your Bio now!
+                        <button onClick={() => this.openBioEditor()}> Add Bio </button>
                     </div>
                 }
                 {this.state.bioVisible &&
                     <div>
-                        <p>enter your bio here</p>
+                        <p>Enter your bio here:</p>
                         <textarea defaultValue={this.props.bio} onChange={e => this.handleInput(e)}/>
-                        <button type="submit" onClick={e => this.submit()}>Save</button>
-                     </div>
+                        <button type="submit" onClick={() => this.submit()}>Save</button>
+                    </div>
                 }
             </div>
         );

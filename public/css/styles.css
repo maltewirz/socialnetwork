@@ -56,11 +56,20 @@ input {
 }
 
 .profileBox {
-    width: 300px;
-    height: 400px;
+    display: flex;
+    width: 100%;
     border: 1px solid black;
 }
 
 .profileBox img {
     height: 150px;
+}
+
+.profileBoxBio{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.profileNameBox {
+    margin-bottom: 10px;
 }
