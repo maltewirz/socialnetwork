@@ -28,11 +28,12 @@ test('first and last name appear in alt', () => {
 
 test('passing prop onClick will be invoked when user clicks on image', () => {
     const clickHandler = jest.fn();
+    console.log("clickHandler in test",clickHandler);
     const wrapper = shallow(
-        <ProfilePic onClick={ clickHandler } />
+        <ProfilePic clickHandler={ clickHandler } />
     );
 
-    wrapper.simulate('click');
+    wrapper.find('img').simulate('click');
 
     expect(
         clickHandler.mock.calls.length
