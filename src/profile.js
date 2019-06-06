@@ -1,9 +1,12 @@
 import React from "react";
 
-export function Profile({first, last, profilePic, bioEditor}) {
+export function Profile({logo, first, last, profilePic, bioEditor}) {
     return (
         <div>
-            { profilePic }
+            <div className="header">
+                { logo }
+                { profilePic }
+            </div>
             <div className="profileBox">
                 { profilePic }
                 { first } { last }

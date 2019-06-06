@@ -26,9 +26,10 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <div className="header">
-                    <Logo />
+                <div >
+
                     <Profile
+                        logo={<Logo />}
                         first={this.state.first}
                         last={this.state.last}
                         profilePic={
@@ -36,7 +37,7 @@ export class App extends React.Component {
                                 imageUrl={this.state.pic_url}
                                 first={this.state.first}
                                 last={this.state.last}
-                                clickHandler={e => this.setState({ uploaderVisible: true })}
+                                clickHandler={() => this.setState({ uploaderVisible: true })}
                             />
                         }
                         bioEditor={
