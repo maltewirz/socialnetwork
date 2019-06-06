@@ -11,12 +11,16 @@ export class OtherProfile extends React.Component {
         let otherId = this.props.match.params.id;
         try {
             let { data } = await axios.get(`/otherUser/${otherId}`);
-            this.setState({
-                bio: data.bio,
-                first: data.first,
-                last: data.last,
-                pic_url: data.pic_url
-            });
+            if (data.sameUser) {
+                this.props.history.push('/');
+            } else {
+                this.setState({
+                    bio: data.bio,
+                    first: data.first,
+                    last: data.last,
+                    pic_url: data.pic_url
+                });
+            }        
         } catch(err) {
             console.log("err in OtherProfile", err);
         }
@@ -27,7 +31,8 @@ export class OtherProfile extends React.Component {
             <div>
                 <h1> other profile </h1>
                 <div className="profileBox">
-                    <div>   <img src={this.state.pic_url} />
+                    <div>
+                        <img src={this.state.pic_url} />
                     </div>
                     <div className="profileBoxBio">
                         <div className="profileNameBox">{this.state.first} {this.state.last}</div>
