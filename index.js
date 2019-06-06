@@ -157,6 +157,10 @@ app.post("/addBio", async (req, res) => {
     }
 });
 
+app.get("/otherUser", function(req, res) {
+    console.log("arrive in otheruser backend");
+});
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
