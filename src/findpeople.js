@@ -10,13 +10,14 @@ export function FindPeople() {
             setUsers(data);
         })();
     },[]);
+    console.log("data", users);
 
     return (
-        <div> Hello search
+        <div>
+            <h1> Find people </h1>
             { users.length && users.map(  //users.length is important  so that this runs when users has an actual length (bigger than empty arr)
                 user => (
                     <div key={user.id} className="profileBox">
-                        
                         <div>
                             <ProfilePic
                                 imageUrl={user.pic_url}
