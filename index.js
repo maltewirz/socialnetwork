@@ -172,6 +172,15 @@ app.get("/otherUser/:otherId", async (req, res)=> {
     }
 });
 
+app.get('/users/latest', async (req, res) => {
+    try {
+        let { rows } = await db.lastUsers();
+        res.json(rows);
+    } catch(err) {
+        console.log("err in app.get('/users/latest'", err);
+    }
+});
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
