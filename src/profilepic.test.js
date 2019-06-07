@@ -26,7 +26,7 @@ test('first and last name appear in alt', () => {
     ).toBe('adam sandler');
 });
 
-test('passing prop onClick will be invoked when user clicks on image', () => {
+test('passing prop clickHandler will be invoked when user clicks on image', () => {
     const clickHandler = jest.fn();
     const wrapper = shallow(
         <ProfilePic clickHandler={ clickHandler } />

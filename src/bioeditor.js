@@ -23,7 +23,6 @@ export class BioEditor extends React.Component{
                     bioVisible: false,
                     bio: ""
                 });
-
             }
         } catch(err) {
             console.log("err in post /addBio", err);
@@ -40,30 +39,27 @@ export class BioEditor extends React.Component{
         this.setState({
             bio: target.value
         });
-
     }
 
     render() {
-
         return (
-
             <div>
                 {this.props.bio && !this.state.bioVisible &&
-                    <div>
+                    <div className="editBio">
                         {this.props.bio}
-                        <button onClick={() => this.openBioEditor()}> Edit Bio </button>
+                        <button className="editButton" onClick={() => this.openBioEditor()}> Edit Bio </button>
                     </div>
                 }
                 {!this.props.bio && !this.state.bioVisible &&
-                    <div> Add your Bio now!
-                        <button onClick={() => this.openBioEditor()}> Add Bio </button>
+                    <div className="addBio"> Add your Bio now!
+                        <button className="addButton" onClick={() => this.openBioEditor()}> Add Bio </button>
                     </div>
                 }
                 {this.state.bioVisible &&
                     <div>
                         <p>Enter your bio here:</p>
-                        <textarea defaultValue={this.props.bio} onChange={e => this.handleInput(e)}/>
-                        <button type="submit" onClick={() => this.submit()}>Save</button>
+                        <textarea className="textarea" defaultValue={this.props.bio} onChange={e => this.handleInput(e)}/>
+                        <button className="saveButton" type="submit" onClick={() => this.submit()}>Save</button>
                     </div>
                 }
             </div>
