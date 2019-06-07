@@ -56,7 +56,7 @@ module.exports.addBio = function addBio(bio, id) {
 
 module.exports.lastUsers = function lastUsers() {
     return db.query(`
-        SELECT id, first, last, created_at
+        SELECT id, first, last, pic_url
         FROM users
         ORDER BY created_at DESC
         LIMIT 3 ;
