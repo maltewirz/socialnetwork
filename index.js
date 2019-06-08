@@ -173,7 +173,6 @@ app.get("/otherUser/:otherId", async (req, res)=> {
 });
 
 app.get('/users/latest', async (req, res) => {
-    console.log("get /users/latest is running");
     try {
         let { rows } = await db.lastUsers();
         res.json(rows);
@@ -183,14 +182,17 @@ app.get('/users/latest', async (req, res) => {
 });
 
 app.post("/users/search/", async (req, res) => {
-    console.log("search running");
     let currentQuery = req.body.currentQuery;
     if (currentQuery == "") {
         res.redirect('/users/latest');
     } else {
         try {
             let { rows } = await db.searchUsers(currentQuery);
-            res.json(rows);
+            if (rows.length == 0) {
+                res.json({error:true});
+            } else {
+                res.json(rows);
+            }
         } catch(err) {
             console.log(`err in app.post("/users/search/"`, err);
         }

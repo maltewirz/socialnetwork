@@ -5,6 +5,7 @@ import { ProfilePic } from "./profilepic";
 export function FindPeople() {
     const [users, setUsers] = useState([]);
     const [currentQuery, setCurrentQuery] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         (async () => {
@@ -16,17 +17,23 @@ export function FindPeople() {
     useEffect(() => {
         (async () => {
             let { data } = await axios.post(`/users/search/`,{currentQuery});
-            console.log("DATA RUNS");
-            setUsers(data);
+            if (data.error) {
+                setError("No results");
+                setUsers(data);
+            } else {
+                setError("");
+                setUsers(data);
+            }
+
         })();
     }, [currentQuery]);
 
     return (
         <div>
-
             <h1> Find people </h1>
             <h4>{currentQuery.length==0 && "Latest Users"} {currentQuery.length > 0 && "Search Results"}</h4>
             <input type="text" className="button" onChange={e => setCurrentQuery(e.target.value)}/>
+            <p>{ error }</p>
             { users.length && users.map(  //users.length is important so that this runs when users has an actual length (bigger than empty arr)
                 user => (
                     <div key={user.id} className="profileBox">
