@@ -67,7 +67,6 @@ module.exports.searchUsers = function searchUsers(currentQuery) {
     return db.query(`
         SELECT id, first, last, pic_url
         FROM users
-        WHERE first
-        ILIKE $1;
+        WHERE first ILIKE $1;
         `,[currentQuery + '%']);
 };

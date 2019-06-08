@@ -10,16 +10,11 @@ export function FindPeople() {
             let { data }  = await axios.get('/users/latest');
             setUsers(data);
         })();
-
-    },[]); //this is not rerunning when empty arrray, or in this case a different currentQuery.
-
-    useEffect(() => {
         (async () => {
             let { data } = await axios.post(`/users/search/`,{currentQuery});
-            console.log("data", data);
             setUsers(data);
         })();
-    },[currentQuery]);
+    },[currentQuery]); //this is not rerunning when empty arrray, or in this case a different currentQuery.
 
     return (
         <div>
