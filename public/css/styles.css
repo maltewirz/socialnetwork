@@ -18,14 +18,13 @@ img {
 }
 
 input {
-    margin: 10px;
+    margin-bottom: 20px;
 }
 
 .button  {
     font-size: 16px;
     height: 40px;
     width: 150px;
-    margin: 10px;
     border: 1px solid grey;
     border-radius: 24px;
     display: flex;
