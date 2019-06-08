@@ -183,11 +183,12 @@ app.get('/users/latest', async (req, res) => {
 });
 
 app.post("/users/search/", async (req, res) => {
-    console.log("arrive in backend", req.body.currentQuery);
     let currentQuery = req.body.currentQuery;
+    if (currentQuery == "") {
+        return;
+    }
     try {
         let { rows } = await db.searchUsers(currentQuery);
-        console.log("resp from searchUsers",rows);
         res.json(rows);
     } catch(err) {
         console.log(`err in app.post("/users/search/"`, err);
