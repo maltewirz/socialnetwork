@@ -1,6 +1,9 @@
 * {
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+body {
+    margin: 30px;
+}
 
 .regWrapper {
     display: flex;
@@ -45,6 +48,8 @@ input {
     height: 200px;
     width: 400px;
     position: absolute;
+    top: 250px;
+    background: aliceblue;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
