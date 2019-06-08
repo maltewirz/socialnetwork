@@ -31,8 +31,8 @@ export function FindPeople() {
     return (
         <div>
             <h1> Find people </h1>
-            <h4>{currentQuery.length==0 && "Latest Users"} {currentQuery.length > 0 && "Search Results"}</h4>
             <input type="text" className="button" onChange={e => setCurrentQuery(e.target.value)}/>
+            <h3>{currentQuery.length==0 && "Latest Users"} {currentQuery.length > 0 && "Search Results"}</h3>
             <p>{ error }</p>
             { users.length && users.map(  //users.length is important so that this runs when users has an actual length (bigger than empty arr)
                 user => (
