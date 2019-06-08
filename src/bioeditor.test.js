@@ -2,6 +2,7 @@ import React from 'react';
 import { BioEditor } from './bioeditor';
 import { shallow } from 'enzyme';
 import axios from './axios';
+
 jest.mock('./axios');
 
 test('1. When no bio is passed to it, an "Add" button is rendered.', () => {
@@ -52,13 +53,29 @@ test('3b. Clicking the "Edit" button causes a textarea and a "Save" button to be
     ).toBe(1);
 });
 
-test('4. Clicking the "Save" button causes an ajax request.', () => {
-    axios.get.mockResolvedValue({
-        success: true
+test('4. Clicking the "Save" button causes an ajax request. The request should not actually happen but mocked by axios.',  () => {
+    axios.post.mockResolvedValue({
+        data: {
+            bio: "testBio"
+        }
     });
+    const wrapper = shallow(<BioEditor />);
+    wrapper.find('button').simulate('click');
+    wrapper.find('.saveButton').simulate('click');
+    expect(
+        axios.post.mock.calls.length
+    ).toBe(1);  // there will be no more save button.
+});
 
-    const wrapper = shallow(
-        <BioEditor bio="myBio" />
-    );
-
+test('5. When the mock request is successful, the function that was passed as a prop to the component gets called.', async () => {
+    axios.post.mockResolvedValue({
+        data: {
+            bio: "testBio"
+        }
+    });
+    const wrapper = shallow(<BioEditor />);
+    wrapper.find('button').simulate('click');
+    wrapper.find('.saveButton').simulate('click');
+    await wrapper.instance().setBio();
+    expect(wrapper.state("bio")).toBe("testBio");
 });
