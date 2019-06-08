@@ -183,16 +183,19 @@ app.get('/users/latest', async (req, res) => {
 });
 
 app.post("/users/search/", async (req, res) => {
+    console.log("search running");
     let currentQuery = req.body.currentQuery;
     if (currentQuery == "") {
-        return;
+        res.redirect('/users/latest');
+    } else {
+        try {
+            let { rows } = await db.searchUsers(currentQuery);
+            res.json(rows);
+        } catch(err) {
+            console.log(`err in app.post("/users/search/"`, err);
+        }
     }
-    try {
-        let { rows } = await db.searchUsers(currentQuery);
-        res.json(rows);
-    } catch(err) {
-        console.log(`err in app.post("/users/search/"`, err);
-    }
+
 });
 
 app.get("*", function(req, res) {
