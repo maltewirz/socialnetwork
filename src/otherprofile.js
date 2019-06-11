@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from "./axios";
+import { FriendButton } from './friendbutton';
 
 export class OtherProfile extends React.Component {
+
     constructor() {
         super();
         this.state = {};
@@ -18,9 +20,10 @@ export class OtherProfile extends React.Component {
                     bio: data.bio,
                     first: data.first,
                     last: data.last,
-                    pic_url: data.pic_url
+                    pic_url: data.pic_url,
+                    id: data.id
                 });
-            }        
+            }
         } catch(err) {
             console.log("err in OtherProfile", err);
         }
@@ -37,10 +40,13 @@ export class OtherProfile extends React.Component {
                     <div className="profileBoxBio">
                         <div className="profileNameBox">{this.state.first} {this.state.last}</div>
                         <div> {this.state.bio} </div>
+                        <FriendButton
+                            myId={this.props.myId}
+                            otherId={this.state.id}
+                        />
                     </div>
                 </div>
             </div>
         );
     }
-
 }

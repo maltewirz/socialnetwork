@@ -70,3 +70,9 @@ module.exports.searchUsers = function searchUsers(currentQuery) {
         WHERE first ILIKE $1;
         `,[currentQuery + '%']);
 };
+
+module.exports.getUserRelation = function getUserRelation(myId, otherId) {
+    return db.query(`
+        SELECT * FROM friendships WHERE sender_id=$1 OR receiver_id=$1 OR sender_id=$2 OR receiver_id=$2;
+        `, [myId, otherId]);
+}

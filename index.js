@@ -197,7 +197,27 @@ app.post("/users/search/", async (req, res) => {
             console.log(`err in app.post("/users/search/"`, err);
         }
     }
+});
 
+app.get('/getFriends/:otherId', async (req, res) => {
+    let myId = req.session.userId;
+    let otherId = req.params.otherId;
+    let { rows } = await db.getUserRelation(myId, otherId);
+    let resp = rows[0];
+    console.log("rows", resp);
+    if (resp.accepted) {
+        console.log("Unfriend");
+        res.json({button: "Unfriend"});
+    } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
+        console.log("Cancel Friend Request");
+        res.json({button: "Cancel Friend Request"});
+    } else if (resp.sender_id == otherId && resp.receiver_id == myId) {
+        console.log("Accept Friend Request");
+        res.json({button: "Accept Friend Request"});
+    } else {
+        console.log("Send Friend Request");
+        res.json({button: "Send Friend Request"});
+    }
 });
 
 app.get("*", function(req, res) {

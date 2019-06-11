@@ -24,6 +24,7 @@ export class App extends React.Component {
         }
     }
     render() {
+
         if (!this.state.id) {
             return <img src="/spinner.gif"/>;
         }
@@ -71,11 +72,15 @@ export class App extends React.Component {
                         />
                         <Route path="/user/:id"
                             render={props => (
-                                <OtherProfile
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
+                                <div>
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                        myId={this.state.id}
+                                    />
+
+                                </div>
                             )}
                         />
                         <Route path="/users" component={FindPeople} />
