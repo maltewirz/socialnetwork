@@ -12,7 +12,7 @@ export class BioEditor extends React.Component{
             this.setState({
                 bio: null
             });
-        }
+        }ü
         try {
             let resp = await axios.post("/addBio", {
                 bio: this.state.bio

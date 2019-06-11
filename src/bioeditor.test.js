@@ -70,7 +70,7 @@ test('4. Clicking the "Save" button causes an ajax request. The request should n
 test('5. When the mock request is successful, the function that was passed as a prop to the component gets called.', async () => {
     axios.post.mockResolvedValue({
         data: {
-            bio: "testBio"
+            success: true
         }
     });
     const wrapper = shallow(<BioEditor />);
