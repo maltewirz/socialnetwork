@@ -53,7 +53,7 @@ test('3b. Clicking the "Edit" button causes a textarea and a "Save" button to be
     ).toBe(1);
 });
 
-test('4. Clicking the "Save" button causes an ajax request. The request should not actually happen but mocked by axios.', async () => {
+test('4. Clicking the "Save" button causes an ajax request. The request should not actually happen but mocked by axios.',  () => {
     axios.post.mockResolvedValue({
         data: {
             success: true
@@ -63,22 +63,24 @@ test('4. Clicking the "Save" button causes an ajax request. The request should n
     const wrapper = shallow(<BioEditor setBio={mockSetBio} />);
     wrapper.find('button').simulate('click');
     wrapper.find('.saveButton').simulate('click');
+
+    expect(
+        axios.post.mock.calls.length
+    ).toBe(1);
+});
+
+test('5. When the mock request is successful, the function that was passed as a prop to the component gets called.', async () => {
+    axios.post.mockResolvedValue({
+        data: {
+            success: true
+        }
+    });
+    const mockSetBio = jest.fn();
+    const wrapper = shallow(<BioEditor setBio={mockSetBio} />);
+
     await wrapper.instance().submit();
 
     expect(
         mockSetBio.mock.calls.length
     ).toBe(1);  // there will be no more save button.
 });
-
-// test('5. When the mock request is successful, the function that was passed as a prop to the component gets called.', async () => {
-//     axios.post.mockResolvedValue({
-//         data: {
-//             success: true
-//         }
-//     });
-//     const wrapper = shallow(<BioEditor />);
-//     wrapper.find('button').simulate('click');
-//     wrapper.find('.saveButton').simulate('click');
-//     await wrapper.instance().setBio();
-//     expect(wrapper.state("bio")).toBe("testBio");
-// });
