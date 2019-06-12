@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "./axios"; 
+import axios from "./axios";
 import { Logo } from "./logo";
 import { Link } from "react-router-dom";
 
@@ -64,7 +64,7 @@ export class Registration extends React.Component {
                     type="password"
                     onChange={e => this.handleChange(e)}
                 />
-                <button onClick={e => this.submit()}>submit</button>
+                <button onClick={() => this.submit()}>submit</button>
                 <p>
                     Already a member? <Link to="/login"> Login </Link>
                 </p>

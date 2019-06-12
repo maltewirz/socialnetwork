@@ -32,6 +32,6 @@ export function FriendButton(props) {
     }
 
     return(
-        <button onClick={e => clickHandler(buttonMsg, e)}>{buttonMsg}</button>
+        <button onClick={() => clickHandler(buttonMsg)}>{buttonMsg}</button>
     );
 }
