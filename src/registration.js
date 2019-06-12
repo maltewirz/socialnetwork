@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "./axios"; // ./axios for CSURF support
+import axios from "./axios"; 
 import { Logo } from "./logo";
 import { Link } from "react-router-dom";
 

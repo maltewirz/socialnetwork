@@ -21,8 +21,8 @@ export class Login extends React.Component {
                 email: this.state.email,
                 pass: this.state.pass
             })
-            .then(resp => {
-                if (resp.data.error) {
+            .then(({ data }) => {
+                if (data.error) {
                     this.setState({
                         error: "Something went wrong, please try again!"
                     });
