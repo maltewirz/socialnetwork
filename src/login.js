@@ -1,26 +1,11 @@
-import React, { useState } from 'react';
-import axios from './axios';
+import React from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
 import { useStatefulFields, useAuthSubmit } from './hooks';
 
-
 export function Login() {
     const [values, handleChange] = useStatefulFields();
-    const [error, setError] = useState('');
-
-    async function submit() {
-        try {
-            let { data } = await axios.post("/login", values);
-            if (data.error) {
-                setError("Something went wrong, please try again!");
-            } else {
-                location.href = "/";
-            }
-        } catch(err) {
-            console.log("err in submit login", err);
-        }
-    }
+    const [submit, error] = useAuthSubmit('/login', values);
 
     return (
         <div className="regWrapper">

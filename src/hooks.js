@@ -25,7 +25,7 @@ export function useAuthSubmit(url, values) {
                 location.href = "/";
             }
         } catch(err) {
-            console.log("err in submit Registration", err);
+            console.log("err in submit", err);
         }
     };
     return [submit, error];
