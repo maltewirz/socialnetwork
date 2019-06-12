@@ -87,7 +87,6 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
 
 
 app.post("/register", async (req, res) => {
-    console.log(req.body);
     try {
         let { first, last, email, password } = req.body.values;
         if (password == undefined) {

@@ -2,19 +2,7 @@ import React, { useState } from 'react';
 import axios from './axios';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
-
-
-function useStatefulFields() {
-    const [values, setValues] = useState({});
-
-    const handleChange = e => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
-        });
-    };
-    return [values, handleChange];
-}
+import { useStatefulFields } from './hooks';
 
 export function Registration() {
     const [values, handleChange] = useStatefulFields();
@@ -32,7 +20,6 @@ export function Registration() {
             console.log("err in submit Registration", err);
         }
     }
-
 
     return(
         <div className="regWrapper">
