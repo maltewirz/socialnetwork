@@ -205,19 +205,19 @@ app.get('/getFriends/:otherId', async (req, res) => {
     try {
         let { rows } = await db.getUserRelation(myId, otherId);
         let resp = rows[0];
-        if (resp.accepted) {
+        if (resp.accepted == undefined || resp.accepted == false) {
+            res.json({button: "Send Friend Request"});
+        } else if (resp.accepted) {
             res.json({button: "Unfriend"});
         } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
             res.json({button: "Cancel Friend Request"});
         } else if (resp.sender_id == otherId && resp.receiver_id == myId) {
             res.json({button: "Accept Friend Request"});
-        } else {
-            res.json({button: "Send Friend Request"});
         }
     } catch(err) {
         console.log("err in app.get('/getFriends/:otherId'", err);
+        res.json({button: "Send Friend Request"});
     }
-
 });
 
 app.post(`/addFriendRelation`, async (req, res) => {
@@ -226,17 +226,23 @@ app.post(`/addFriendRelation`, async (req, res) => {
     let butPressed = req.body.post;
     try {
         if (butPressed == "Unfriend" || butPressed == "Cancel Friend Request") {
+            console.log("in route unfriend");
             await db.deleteUserRelation(myId, otherId);
+            console.log("db happened");
             res.json({button: "Send Friend Request"});  //debug later
         }
         if (butPressed == "Accept Friend Request") {
             await db.acceptUserRelation(myId, otherId);
+            res.json({button: "Cancel Friend Request"});
         }
         if (butPressed == "Send Friend Request") {
+            console.log("arrive in post");
             await db.sendUserRelation(myId, otherId);
+            res.json({button: "Cancel Friend Request"});
         }
-    }catch(err) {
+    } catch(err) {
         console.log("app.post(`/addFriendRelation`", err);
+        res.json({button: "Send Friend Request"});
     }
 });
 

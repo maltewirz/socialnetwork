@@ -6,7 +6,6 @@ export function FriendButton(props) {
     const [buttonMsg, setButtonMsg] = useState("");
     const [post, setPost] = useState("");
     let otherId = props.otherId;
-    console.log("otherId in global", otherId);
 
     useEffect(() => {
         (async () => {
@@ -20,11 +19,12 @@ export function FriendButton(props) {
     useEffect(() => {
         (async () => {
             if (post != "") {
-                console.log("only now");
-                await axios.post(`/addFriendRelation`, {otherId, post});
+                let { data } = await axios.post(`/addFriendRelation`, {otherId, post});
+                console.log("data from resp", data);
+                setButtonMsg(data.button);
             }
         })();
-    });
+    },[buttonMsg]);
 
     function clickHandler(buttonMsg){
         setPost(buttonMsg);
