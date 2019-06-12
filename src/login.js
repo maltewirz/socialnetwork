@@ -8,20 +8,19 @@ export function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    function submit() {
-        axios
-            .post("/login", {
-                email,
-                password
-            })
-            .then(({ data }) => {
-                console.log(data);
-                if (data.error) {
-                    setError("Something went wrong, please try again!");
-                } else {
-                    location.href = "/";
-                }
+    async function submit() {
+        try {
+            let { data } = await axios.post("/login", {
+                email, password
             });
+            if (data.error) {
+                setError("Something went wrong, please try again!");
+            } else {
+                location.href = "/";
+            }
+        } catch(err) {
+            console.log("err in submit login", err);
+        }
     }
 
     return (
