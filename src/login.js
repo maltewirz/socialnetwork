@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import axios from './axios';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
+import { useStatefulFields, useAuthSubmit } from './hooks';
+
 
 export function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [values, handleChange] = useStatefulFields();
     const [error, setError] = useState('');
 
     async function submit() {
         try {
-            let { data } = await axios.post("/login", {
-                email, password
-            });
+            let { data } = await axios.post("/login", values);
             if (data.error) {
                 setError("Something went wrong, please try again!");
             } else {
@@ -34,13 +33,13 @@ export function Login() {
             <input
                 name="email"
                 placeholder="email"
-                onChange={e => setEmail(e.target.value)}
+                onChange={handleChange}
             />
             <input
                 name="password"
                 placeholder="password"
                 type="password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={handleChange}
             />
             <button onClick={() => submit()}> Submit </button>
             <p>

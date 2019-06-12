@@ -106,7 +106,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        let { email, password } = req.body;
+        let { email, password } = req.body.values;
         let dbEmail = await db.getEmailPassword(email);
         if (dbEmail.rows[0] != undefined) {
             let passwordDb = dbEmail.rows[0].password;
