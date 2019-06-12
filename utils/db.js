@@ -50,7 +50,7 @@ module.exports.addBio = function addBio(bio, id) {
     return db.query(`
         UPDATE users
         SET bio=($1)
-        WHERE id=$2
+        WHERE id=$2;
         `, [bio, id]);
 };
 
@@ -73,6 +73,32 @@ module.exports.searchUsers = function searchUsers(currentQuery) {
 
 module.exports.getUserRelation = function getUserRelation(myId, otherId) {
     return db.query(`
-        SELECT * FROM friendships WHERE sender_id=$1 OR receiver_id=$1 OR sender_id=$2 OR receiver_id=$2;
+        SELECT * FROM friendships
+        WHERE (sender_id=$1 AND receiver_id=$2)
+        OR (sender_id=$2 AND receiver_id=$1);
         `, [myId, otherId]);
-}
+};
+//
+module.exports.deleteUserRelation = function deleteUserRelation(myId, otherId) {
+    return db.query(`
+        DELETE FROM friendships
+        WHERE (sender_id=$1 AND receiver_id=$2)
+        OR (sender_id=$2 AND receiver_id=$1);
+        `, [myId, otherId]);
+};
+//
+module.exports.acceptUserRelation = function acceptUserRelation(myId, otherId) {
+    return db.query(`
+        UPDATE friendships
+        SET accepted = true
+        WHERE sender_id=$2
+        AND receiver_id=$1;
+        `,[myId, otherId]);
+};
+
+module.exports.sendUserRelation = function sendUserRelation(myId, otherId) {
+    return db.query(`
+        INSERT INTO friendships (sender_id, receiver_id)
+        VALUES ($1, $2);
+        `,[myId, otherId]);
+};

@@ -202,17 +202,41 @@ app.post("/users/search/", async (req, res) => {
 app.get('/getFriends/:otherId', async (req, res) => {
     let myId = req.session.userId;
     let otherId = req.params.otherId;
-    let { rows } = await db.getUserRelation(myId, otherId);
-    let resp = rows[0];
-    console.log("rows", resp);
-    if (resp.accepted) {
-        res.json({button: "Unfriend"});
-    } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
-        res.json({button: "Cancel Friend Request"});
-    } else if (resp.sender_id == otherId && resp.receiver_id == myId) {
-        res.json({button: "Accept Friend Request"});
-    } else {
-        res.json({button: "Send Friend Request"});
+    try {
+        let { rows } = await db.getUserRelation(myId, otherId);
+        let resp = rows[0];
+        if (resp.accepted) {
+            res.json({button: "Unfriend"});
+        } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
+            res.json({button: "Cancel Friend Request"});
+        } else if (resp.sender_id == otherId && resp.receiver_id == myId) {
+            res.json({button: "Accept Friend Request"});
+        } else {
+            res.json({button: "Send Friend Request"});
+        }
+    } catch(err) {
+        console.log("err in app.get('/getFriends/:otherId'", err);
+    }
+
+});
+
+app.post(`/addFriendRelation`, async (req, res) => {
+    let myId = req.session.userId;
+    let otherId = req.body.otherId;
+    let butPressed = req.body.post;
+    try {
+        if (butPressed == "Unfriend" || butPressed == "Cancel Friend Request") {
+            await db.deleteUserRelation(myId, otherId);
+            res.json({button: "Send Friend Request"});  //debug later
+        }
+        if (butPressed == "Accept Friend Request") {
+            await db.acceptUserRelation(myId, otherId);
+        }
+        if (butPressed == "Send Friend Request") {
+            await db.sendUserRelation(myId, otherId);
+        }
+    }catch(err) {
+        console.log("app.post(`/addFriendRelation`", err);
     }
 });
 
