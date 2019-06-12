@@ -1,25 +1,11 @@
-import React, { useState } from 'react';
-import axios from './axios';
+import React from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
-import { useStatefulFields } from './hooks';
+import { useStatefulFields, useAuthSubmit } from './hooks';
 
 export function Registration() {
     const [values, handleChange] = useStatefulFields();
-    const [error, setError] = useState('');
-
-    async function submit() {
-        try {
-            let { data } = await axios.post("/register", {values});
-            if (data.error) {
-                setError("Something went wrong, please try again!");
-            } else {
-                location.href = "/";
-            }
-        } catch(err) {
-            console.log("err in submit Registration", err);
-        }
-    }
+    const [submit, error] = useAuthSubmit('/register', values);
 
     return(
         <div className="regWrapper">
