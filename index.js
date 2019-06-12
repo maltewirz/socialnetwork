@@ -106,15 +106,15 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        let { email, pass } = req.body;
+        let { email, password } = req.body;
         let dbEmail = await db.getEmailPassword(email);
         if (dbEmail.rows[0] != undefined) {
             let passwordDb = dbEmail.rows[0].password;
-            let authTrue = await bc.checkPassword(pass, passwordDb);
+            let authTrue = await bc.checkPassword(password, passwordDb);
             if (authTrue) {
                 req.session.userId = dbEmail.rows[0].id;
                 res.json({ error: false });
-            } 
+            }
         } else {
             res.json({ error: true });
         }
