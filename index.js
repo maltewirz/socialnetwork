@@ -227,14 +227,13 @@ app.post(`/addFriendRelation`, async (req, res) => {
     try {
         if (butPressed == "Unfriend" || butPressed == "Cancel Friend Request") {
             await db.deleteUserRelation(myId, otherId);
-            res.json({button: "Send Friend Request"});  //debug later
+            res.json({button: "Send Friend Request"});
         }
         if (butPressed == "Accept Friend Request") {
             await db.acceptUserRelation(myId, otherId);
             res.json({button: "Unfriend"});
         }
         if (butPressed == "Send Friend Request") {
-            console.log("arrive in post");
             await db.sendUserRelation(myId, otherId);
             res.json({button: "Cancel Friend Request"});
         }

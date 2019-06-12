@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from './axios';
 
-
 export function FriendButton(props) {
-    const [buttonMsg, setButtonMsg] = useState("");
+    const [buttonMsg, setButtonMsg] = useState("Send Friend Request");
     let otherId = props.otherId;
 
     useEffect(() => {
-        (async () => {
-            if (otherId != undefined ) {
-                let { data } = await axios.get(`/getFriends/${otherId}`);
-                setButtonMsg(data.button);
-            }
-        })();
+        try {
+            (async () => {
+                if (otherId != undefined ) {
+                    let { data } = await axios.get(`/getFriends/${otherId}`);
+                    setButtonMsg(data.button);
+                }
+            })();
+        } catch(err) {
+            console.log("err in useEffect", err);
+        }
     },[otherId]);
 
-
-
-    function clickHandler(buttonMsg){
-        (async () => {
-            if (buttonMsg != "") {
-                let { data } = await axios.post(`/addFriendRelation`, {otherId, buttonMsg});
-                setButtonMsg(data.button);
-            }
-        })();
+    function clickHandler(buttonMsg) {
+        try {
+            (async () => {
+                if (buttonMsg != "") {
+                    let { data } = await axios.post(`/addFriendRelation`, {otherId, buttonMsg});
+                    setButtonMsg(data.button);
+                }
+            })();
+        } catch(err) {
+            console.log("err in", err);
+        }
     }
 
     return(
-        <button onClick={e => clickHandler(buttonMsg)}>{buttonMsg}</button>
+        <button onClick={e => clickHandler(buttonMsg, e)}>{buttonMsg}</button>
     );
 }
