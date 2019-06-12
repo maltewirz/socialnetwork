@@ -3,7 +3,7 @@ const app = express();
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 const csurf = require("csurf");
-const compression = require("compression"); //compress responses w gzip
+const compression = require("compression");
 const cookieSession = require("cookie-session");
 const { cookieSecret } = require("./secrets/cookieSecret");
 const s3 = require("./s3");
@@ -216,11 +216,10 @@ app.get('/getFriends/:otherId', async (req, res) => {
         }
     } catch(err) {
         console.log("err in app.get('/getFriends/:otherId'", err);
-        res.json({button: "Send Friend Request"});
     }
 });
 
-app.post(`/addFriendRelation`, async (req, res) => {
+app.post(`/changeFriendRelation`, async (req, res) => {
     let myId = req.session.userId;
     let otherId = req.body.otherId;
     let butPressed = req.body.buttonMsg;

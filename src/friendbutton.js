@@ -22,7 +22,7 @@ export function FriendButton(props) {
         try {
             (async () => {
                 if (buttonMsg != "") {
-                    let { data } = await axios.post(`/addFriendRelation`, {otherId, buttonMsg});
+                    let { data } = await axios.post(`/changeFriendRelation`, {otherId, buttonMsg});
                     setButtonMsg(data.button);
                 }
             })();
