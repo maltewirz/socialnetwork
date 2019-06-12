@@ -3,18 +3,26 @@ import axios from './axios';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
 
+
+function useStatefulFields() {
+    const [values, setValues] = useState({});
+
+    const handleChange = e => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value
+        });
+    };
+    return [values, handleChange];
+}
+
 export function Registration() {
-    const [first, setFirst] = useState('');
-    const [last, setLast] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [values, handleChange] = useStatefulFields();
     const [error, setError] = useState('');
 
     async function submit() {
         try {
-            let { data } = await axios.post("/register", {
-                first, last, email, password
-            });
+            let { data } = await axios.post("/register", {values});
             if (data.error) {
                 setError("Something went wrong, please try again!");
             } else {
@@ -24,6 +32,7 @@ export function Registration() {
             console.log("err in submit Registration", err);
         }
     }
+
 
     return(
         <div className="regWrapper">
@@ -36,23 +45,23 @@ export function Registration() {
             <input
                 name="first"
                 placeholder="first"
-                onChange={e => setFirst(e.target.value)}
+                onChange={handleChange}
             />
             <input
                 name="last"
                 placeholder="last"
-                onChange={e => setLast(e.target.value)}
+                onChange={handleChange}
             />
             <input
                 name="email"
                 placeholder="email"
-                onChange={e => setEmail(e.target.value)}
+                onChange={handleChange}
             />
             <input
                 name="password"
                 placeholder="password"
                 type="password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={handleChange}
             />
             <button onClick={() => submit()}> Submit </button>
             <p>
