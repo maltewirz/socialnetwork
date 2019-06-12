@@ -114,12 +114,13 @@ app.post("/login", async (req, res) => {
             if (authTrue) {
                 req.session.userId = dbEmail.rows[0].id;
                 res.json({ error: false });
-            } else {
-                res.json({ error: true });
-            }
+            } 
+        } else {
+            res.json({ error: true });
         }
     } catch(err) {
         console.log("err in post /login", err);
+        res.json({ error: true });
     }
 });
 
