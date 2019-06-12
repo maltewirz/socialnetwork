@@ -88,12 +88,12 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
 
 app.post("/register", async (req, res) => {
     try {
-        let { first, last, email, pass } = req.body;
-        if (pass == undefined) {
+        let { first, last, email, password } = req.body;
+        if (password == undefined) {
             res.json({ error: true });
             return;
         }
-        let passHash = await bc.hashPassword(pass);
+        let passHash = await bc.hashPassword(password);
         let resp = await db.addUser(first, last, email, passHash);
         req.session.userId = resp.rows[0].id;
         res.json({ error: false });
