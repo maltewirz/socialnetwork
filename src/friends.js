@@ -9,6 +9,7 @@ export function Friends(props) {  // not sure if props correct here
     useEffect(() => {
         props.dispatch(getFriendsWannabes());
     }, []);
+    console.log(props.friendsWannabes);
 
     if (!props.friendsWannabes) {
         return <div> Loading </div>;
@@ -30,6 +31,7 @@ export function Friends(props) {  // not sure if props correct here
                         <div className="profileBoxBio">
                             <div className="profileNameBox">
                                 { person.first } { person.last }
+                                { person.accepted && <div> Friend </div>}
                             </div>
                         </div>
                     </div>
