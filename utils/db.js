@@ -105,7 +105,7 @@ module.exports.sendUserRelation = function sendUserRelation(myId, otherId) {
 
 module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
     return db.query(`
-        SELECT users.id, first, last,  accepted
+        SELECT users.id, first, last, pic_url, accepted
         FROM friendships
         JOIN users
         ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
