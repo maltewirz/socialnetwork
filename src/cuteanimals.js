@@ -39,4 +39,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps)(CuteAnimals)
+export default connect(mapStateToProps)(CuteAnimals);
