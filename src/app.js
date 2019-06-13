@@ -8,6 +8,7 @@ import { BioEditor } from "./bioeditor";
 import { OtherProfile } from "./otherprofile";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { FindPeople } from './findpeople';
+import { Friends } from './friends';
 import { Link } from 'react-router-dom';
 import CuteAnimals from './cuteanimals';
 
@@ -35,6 +36,7 @@ export class App extends React.Component {
                     <div className="header">
                         <Logo />
                         <Link to="/users"> Find people </Link>
+                        <Link to="/friends">  Friends</Link>
                         <ProfilePic
                             imageUrl={this.state.pic_url}
                             first={this.state.first}
@@ -85,6 +87,7 @@ export class App extends React.Component {
                             )}
                         />
                         <Route path="/users" component={FindPeople} />
+                        <Route path="/friends" component={Friends} />
                         <Route path='/cuteanimals' component={CuteAnimals} />
                     </div>
                     <div className="uploader">
