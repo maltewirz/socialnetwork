@@ -5,7 +5,7 @@ const bc = require("./utils/bc");
 const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
-const { cookieSecret } = require("./secrets/cookieSecret");
+const cookieSecret = require("./secrets/cookieSecret");
 const s3 = require("./s3");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -241,6 +241,11 @@ app.post(`/changeFriendRelation`, async (req, res) => {
         console.log("app.post(`/addFriendRelation`", err);
         res.json({button: "Send Friend Request"});
     }
+});
+
+app.get('/get-list-animals', (req, res) => {
+    let animals = ['dogs', 'cats', 'otters', 'seagulls'];
+    res.json(animals);
 });
 
 app.get("*", function(req, res) {

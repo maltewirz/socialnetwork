@@ -9,6 +9,7 @@ import { OtherProfile } from "./otherprofile";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { FindPeople } from './findpeople';
 import { Link } from 'react-router-dom';
+import CuteAnimals from './cuteanimals';
 
 export class App extends React.Component {
     constructor(props) {
@@ -84,6 +85,7 @@ export class App extends React.Component {
                             )}
                         />
                         <Route path="/users" component={FindPeople} />
+                        <Route path='/cuteanimals' component={CuteAnimals} />
                     </div>
                     <div className="uploader">
                         {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
