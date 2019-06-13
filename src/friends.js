@@ -4,6 +4,7 @@ import { getFriendsWannabes } from './actions';
 
 
 export function Friends(props) {  // not sure if props correct here
+    console.log("props in here", props.friendsWannabes);
 
     useEffect(() => {
         props.dispatch(getFriendsWannabes());
@@ -17,7 +18,9 @@ export function Friends(props) {  // not sure if props correct here
 }
 
 const mapStateToProps = state => {
-    return {};
+    return {
+        friendsWannabes: state.listFriendsWannabes
+    };
 };
 
 export default connect(mapStateToProps)(Friends);

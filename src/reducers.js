@@ -7,6 +7,10 @@ export function reducer(state = {}, action) {
         //Object.assign()
         return { ...state, listAnimals: action.listAnimals };
     }
-    console.log("state", state);
+
+    if (action.type == 'GET_LIST_FRIENDS_WANNABES') {
+        return { ...state, listFriendsWannabes: action.listFriendsWannabes};
+    }
+    
     return state;
 }
