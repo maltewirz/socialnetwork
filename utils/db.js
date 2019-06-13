@@ -102,3 +102,28 @@ module.exports.sendUserRelation = function sendUserRelation(myId, otherId) {
         VALUES ($1, $2);
         `,[myId, otherId]);
 };
+
+module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
+    return db.query(`
+        SELECT users.id, first, last,  accepted
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND receiver_id = users.id);
+        `, [myId]);
+};
+
+// SELECT users.id, first, last,  accepted
+// FROM friendships
+// JOIN users
+// ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+// OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+// OR (accepted = true AND sender_id = $1 AND receiver_id = users.id);
+//
+// SELECT users.id, first, last,  accepted
+// FROM friendships
+// JOIN users
+// ON (accepted = false AND sender_id  = 2 AND receiver_id = users.id)
+// OR (accepted = true AND  sender_id = 2 AND receiver_id= users.id)
+// OR (accepted = true AND  receiver_id= 2 AND  sender_id= users.id);

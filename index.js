@@ -248,6 +248,21 @@ app.get('/get-list-animals', (req, res) => {
     res.json(animals);
 });
 
+app.get('/friends-wannabes', async (req, res) => {
+    try {
+        let myId = req.session.userId;
+        let resp = await db.getFriendsWannabes(myId);
+        res.json(resp.rows);
+    } catch(err) {
+        console.log("err in app.get('/friends-wannabes'", err);
+    }
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/");
+});
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
