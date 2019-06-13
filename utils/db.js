@@ -58,7 +58,7 @@ module.exports.lastUsers = function lastUsers() {
     return db.query(`
         SELECT id, first, last, pic_url
         FROM users
-        ORDER BY id
+        ORDER BY id DESC
         LIMIT 3 ;
         `);
 };
