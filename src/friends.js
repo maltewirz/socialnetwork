@@ -16,6 +16,7 @@ export function Friends(props) {  // not sure if props correct here
 
     return(
         <div>
+            <h1> Friendslist </h1>
             {props.friendsWannabes.length && props.friendsWannabes.map(person => {
                 return (
                     <div className="profileBox" key={ person.pic_url }>
