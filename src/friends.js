@@ -9,16 +9,16 @@ export function Friends(props) {  // not sure if props correct here
     useEffect(() => {
         props.dispatch(getFriendsWannabes());
     }, []);
-    console.log(props.friendsWannabes);
+    console.log(props.friends);
 
-    if (!props.friendsWannabes) {
+    if (!props.friends) {
         return <div> Loading </div>;
     }
 
     return(
         <div>
             <h1> Friendslist </h1>
-            {props.friendsWannabes.length && props.friendsWannabes.map(person => {
+            {props.friends.length && props.friends.map(person => {
                 return (
                     <div className="profileBox" key={ person.pic_url }>
                         <div>
@@ -31,7 +31,25 @@ export function Friends(props) {  // not sure if props correct here
                         <div className="profileBoxBio">
                             <div className="profileNameBox">
                                 { person.first } { person.last }
-                                { person.accepted && <div> Friend </div>}
+                            </div>
+                        </div>
+                    </div>
+                );
+            })}
+            <h1> Wannabes List </h1>
+            {props.wannabes.length && props.wannabes.map(person => {
+                return (
+                    <div className="profileBox" key={ person.pic_url }>
+                        <div>
+                            <ProfilePic
+                                imageUrl={person.pic_url}
+                                first={person.first}
+                                last={person.last}
+                            />
+                        </div>
+                        <div className="profileBoxBio">
+                            <div className="profileNameBox">
+                                { person.first } { person.last }
                             </div>
                         </div>
                     </div>
@@ -44,7 +62,9 @@ export function Friends(props) {  // not sure if props correct here
 
 const mapStateToProps = state => {
     return {
-        friendsWannabes: state.listFriendsWannabes
+        friends: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted == true),
+        wannabes: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted == false)
+
     };
 };
 
