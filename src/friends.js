@@ -29,11 +29,12 @@ export function Friends(props) {  // not sure if props correct here
                             />
                         </div>
                         <div className="profileBoxBio">
-                            <Link to={"/user/"+person.id}>
+                            <Link to={"/user/" + person.id}>
                                 <div className="profileNameBox">
                                     { person.first } { person.last }
                                 </div>
                             </Link>
+                            <button> Accept Friend Request </button>
                         </div>
                     </div>
                 );
@@ -50,11 +51,12 @@ export function Friends(props) {  // not sure if props correct here
                             />
                         </div>
                         <div className="profileBoxBio">
-                            <Link to={"/user/"+person.id}>
+                            <Link to={"/user/" + person.id}>
                                 <div className="profileNameBox">
                                     { person.first } { person.last }
                                 </div>
                             </Link>
+                            <button> End Friendship </button>
                         </div>
                     </div>
                 );
