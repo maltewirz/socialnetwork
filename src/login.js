@@ -7,17 +7,17 @@ export function Login() {
     const [values, handleChange] = useStatefulFields();
     const [submit, error] = useAuthSubmit('/login', values);
 
-    useEffect(() => { // gives short term error message - fix
-        window.addEventListener('keydown', e => {
-            if (e.keyCode === 13) {
-                submit();
-            }
-        });
-
-        return () => {
-
-        };
-    });
+    // useEffect(() => { // gives short term error message - fix
+    //     window.addEventListener('keydown', e => {
+    //         if (e.keyCode === 13) {
+    //             submit();
+    //         }
+    //     });
+    //
+    //     return () => {
+    //
+    //     };
+    // },[]);
 
     return (
         <div className="regWrapper">
