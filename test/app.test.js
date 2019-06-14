@@ -1,10 +1,10 @@
 import React from 'react';
-import { App } from './app';
+import { App } from '../src/app';
 import {shallow} from 'enzyme';
-import axios from './axios';
+import axios from '../src/axios';
 
 //this will create the mock of axios that will have all methods of axios except those mthods don't do anything.
-jest.mock("./axios");
+jest.mock("../src/axios");
 
 test('app sets state in componentDidMount', async () => {
     axios.get.mockResolvedValue({

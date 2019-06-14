@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { FriendButton } from './friendbutton';
-import axios from './axios';
-jest.mock('./axios');
+import { FriendButton } from '../src/friendbutton';
+import axios from '../src/axios';
+jest.mock('../src/axios');
 
 const wrapper = shallow(<FriendButton />);
 

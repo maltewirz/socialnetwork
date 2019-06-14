@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProfilePic } from "./profilepic";
+import { ProfilePic } from "../src/profilepic";
 import { shallow } from 'enzyme';
 
 test("when passed profilePic prop, the ProfilePic component renders that image", () => {

@@ -1,9 +1,9 @@
 import React from 'react';
-import { BioEditor } from './bioeditor';
+import { BioEditor } from '../src/bioeditor';
 import { shallow } from 'enzyme';
-import axios from './axios';
+import axios from '../src/axios';
 
-jest.mock('./axios');
+jest.mock('../src/axios');
 
 test('1. When no bio is passed to it, an "Add" button is rendered.', () => {
     const wrapper = shallow(<BioEditor />);
