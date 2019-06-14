@@ -203,9 +203,13 @@ app.post("/users/search/", async (req, res) => {
 app.get('/getFriends/:otherId', async (req, res) => {
     let myId = req.session.userId;
     let otherId = req.params.otherId;
+
     try {
         let { rows } = await db.getUserRelation(myId, otherId);
         let resp = rows[0];
+        if (resp == undefined) {
+            return null;
+        }
         if (resp.accepted) {
             res.json({button: "Unfriend"});
         } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
