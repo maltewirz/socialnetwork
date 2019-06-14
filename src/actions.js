@@ -13,7 +13,6 @@ export function getListOfAnimals() {
 
 export async function getFriendsWannabes() {
     let { data } = await axios.get('/friends-wannabes');
-    console.log(data);
     return {
         type: "GET_LIST_FRIENDS_WANNABES",
         listFriendsWannabes: data

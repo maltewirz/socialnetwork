@@ -14,8 +14,6 @@ export function Friends(props) {  // not sure if props correct here
     if (!props.friends) {
         return <div> Loading </div>;
     }
-    console.log("state in freinds, after reducer", props.friends);
-    console.log("state in wannabes, after reducer", props.wannabes);
 
     return(
         <div>
