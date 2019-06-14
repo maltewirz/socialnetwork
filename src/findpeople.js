@@ -13,7 +13,7 @@ export function FindPeople() {
             let { data }  = await axios.get('/users/latest');
             setUsers(data);
         })();
-    },[]); //this is not rerunning when empty arrray, or in this case a different currentQuery.
+    },[]);
 
     useEffect(() => {
         (async () => {

@@ -243,11 +243,6 @@ app.post(`/changeFriendRelation`, async (req, res) => {
     }
 });
 
-app.get('/get-list-animals', (req, res) => {
-    let animals = ['dogs', 'cats', 'otters', 'seagulls'];
-    res.json(animals);
-});
-
 app.get('/friends-wannabes', async (req, res) => {
     try {
         let myId = req.session.userId;

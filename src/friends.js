@@ -5,7 +5,7 @@ import { ProfilePic } from './profilepic';
 import { Link } from 'react-router-dom';
 
 
-export function Friends(props) {  // not sure if props correct here
+export function Friends(props) { 
 
     useEffect(() => {
         props.dispatch(getFriendsWannabes());
