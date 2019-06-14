@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
-import { useStatefulFields, useAuthSubmit, useEnterKeyforSubmitting} from './hooks';
+import { useStatefulFields, useAuthSubmit} from './hooks';
 
 export function Login() {
     const [values, handleChange] = useStatefulFields();
