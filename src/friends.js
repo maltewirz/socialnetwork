@@ -2,6 +2,7 @@ import React, { useEffect }  from 'react';
 import { connect } from 'react-redux';
 import { getFriendsWannabes } from './actions';
 import { ProfilePic } from './profilepic';
+import { Link } from 'react-router-dom';
 
 
 export function Friends(props) {  // not sure if props correct here
@@ -9,7 +10,6 @@ export function Friends(props) {  // not sure if props correct here
     useEffect(() => {
         props.dispatch(getFriendsWannabes());
     }, []);
-    console.log(props.friends);
 
     if (!props.friends) {
         return <div> Loading </div>;
@@ -29,9 +29,11 @@ export function Friends(props) {  // not sure if props correct here
                             />
                         </div>
                         <div className="profileBoxBio">
-                            <div className="profileNameBox">
-                                { person.first } { person.last }
-                            </div>
+                            <Link to={"/user/"+person.id}>
+                                <div className="profileNameBox">
+                                    { person.first } { person.last }
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 );
@@ -48,9 +50,11 @@ export function Friends(props) {  // not sure if props correct here
                             />
                         </div>
                         <div className="profileBoxBio">
-                            <div className="profileNameBox">
-                                { person.first } { person.last }
-                            </div>
+                            <Link to={"/user/"+person.id}>
+                                <div className="profileNameBox">
+                                    { person.first } { person.last }
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 );

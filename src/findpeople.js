@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from './axios';
 import { ProfilePic } from "./profilepic";
+import { Link } from 'react-router-dom';
 
 export function FindPeople() {
     const [users, setUsers] = useState([]);
@@ -45,8 +46,10 @@ export function FindPeople() {
                             />
                         </div>
                         <div className="profileBoxBio">
-                            <div className="profileNameBox"> { user.first } { user.last }</div>
-                            <div>{ user.bio } </div>
+                            <Link to={"/user/"+user.id}>
+                                <div className="profileNameBox"> { user.first } { user.last }</div>
+                                <div>{ user.bio } </div>
+                            </Link>
                         </div>
                     </div>
                 )
