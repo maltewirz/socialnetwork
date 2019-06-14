@@ -82,7 +82,6 @@ export class App extends React.Component {
                                         history={props.history}
                                         myId={this.state.id}
                                     />
-
                                 </div>
                             )}
                         />
@@ -90,10 +89,17 @@ export class App extends React.Component {
                         <Route path="/friends" component={Friends} />
                     </div>
                     <div className="uploader">
-                        {this.state.uploaderVisible && <Uploader changeImage={img => this.setState({
-                            pic_url: img,
-                            uploaderVisible: false
-                        })}/>}
+                        {this.state.uploaderVisible &&
+                            <Uploader
+                                changeImage={img => this.setState({
+                                    pic_url: img,
+                                    uploaderVisible: false
+                                })}
+                                closeModal={() => this.setState({
+                                    uploaderVisible: false
+                                })}
+
+                            />}
                     </div>
                 </div>
             </BrowserRouter>

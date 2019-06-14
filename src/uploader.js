@@ -23,6 +23,7 @@ export class Uploader extends React.Component {
         return (
             <div className="modalWrapper">
                 <div className="modal">
+                    <p id="closeModal" onClick={() => this.props.closeModal()}> X </p>
                     <p> Want to change your image? </p>
                     <input type="file" id="file" name="file" accept="image/*" className="inputfield" onChange={e => this.handleInput(e)}/>
                     <label htmlFor="file" className="button" >Upload</label>
