@@ -166,9 +166,12 @@ app.get("/otherUser/:otherId", async (req, res)=> {
     } else {
         try {
             let data = await db.getUser(req.params.otherId);
+            if (data.rows[0] == undefined) {
+                res.json({error: true});
+            }
             res.json(data.rows[0]);
         } catch(err) {
-            console.log("err in post /upload",err);
+            console.log("err app.get(/otherUser/:otherId",err);
         }
     }
 });
