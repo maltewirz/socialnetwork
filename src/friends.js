@@ -62,8 +62,8 @@ export function Friends(props) {  // not sure if props correct here
 
 const mapStateToProps = state => {
     return {
-        friends: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted == true),
-        wannabes: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted == false)
+        friends: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted),
+        wannabes: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => !friend.accepted)
 
     };
 };
