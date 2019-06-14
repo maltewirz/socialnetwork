@@ -61,6 +61,9 @@ export function Friends(props) {  // not sure if props correct here
                             <button onClick={
                                 () => props.dispatch(acceptFriend(person.id))
                             }> Accept Friend Request </button>
+                            <button onClick={
+                                () => props.dispatch(endFriend(person.id))
+                            }> Remove Friend Request </button>
 
                         </div>
                     </div>
