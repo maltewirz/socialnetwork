@@ -13,8 +13,18 @@ export function getListOfAnimals() {
 
 export async function getFriendsWannabes() {
     let { data } = await axios.get('/friends-wannabes');
+    console.log(data);
     return {
         type: "GET_LIST_FRIENDS_WANNABES",
         listFriendsWannabes: data
     };
+}
+
+export async function acceptFriend(otherId) {
+    let buttonMsg = "Accept Friend Request";
+    await axios.post("/changeFriendRelation", {otherId, buttonMsg});
+    return {
+        type: "GET_LIST_FRIENDS_WANNABES",
+        listFriendsWannabes: tbd
+    }
 }
