@@ -24,7 +24,7 @@ export async function acceptFriend(otherId) {
     let buttonMsg = "Accept Friend Request";
     await axios.post("/changeFriendRelation", {otherId, buttonMsg});
     return {
-        type: "GET_LIST_FRIENDS_WANNABES",
-        listFriendsWannabes: tbd
-    }
+        type: "ACCEPT_FRIEND",
+        otherId: otherId
+    };
 }
