@@ -13,5 +13,4 @@ export function Profile({first, last, profilePic, bioEditor}) {
             </div>
         </div>
     );
-
 }
