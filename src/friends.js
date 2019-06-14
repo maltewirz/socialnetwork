@@ -66,7 +66,6 @@ export function Friends(props) {
                             <button onClick={
                                 () => props.dispatch(endFriend(person.id))
                             }> Remove Friend Request </button>
-
                         </div>
                     </div>
                 );
@@ -74,7 +73,6 @@ export function Friends(props) {
         </div>
     );
 }
-
 
 const mapStateToProps = state => {
     return {

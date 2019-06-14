@@ -98,7 +98,6 @@ export class App extends React.Component {
                                 closeModal={() => this.setState({
                                     uploaderVisible: false
                                 })}
-
                             />}
                     </div>
                 </div>
