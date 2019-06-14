@@ -28,3 +28,12 @@ export async function acceptFriend(otherId) {
         otherId: otherId
     };
 }
+
+export async function endFriend(otherId) {
+    let buttonMsg = "Unfriend";
+    await axios.post("/changeFriendRelation", {otherId, buttonMsg});
+    return {
+        type: "END_FRIEND",
+        otherId: otherId
+    };
+}

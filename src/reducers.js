@@ -13,18 +13,24 @@ export function reducer(state = {}, action) {
     }
 
     if (action.type == "ACCEPT_FRIEND") {
-        console.log("action", action) ;
-        console.log("state", state);
         return { ...state,
             listFriendsWannabes: state.listFriendsWannabes.map(
                 person => {
                     if (person.id == action.otherId) {
                         return {
-                            ...person, accepted : true};
+                            ...person, accepted: true}; // copies person object, take accept prop of obj and sets to true
                     } else {
                         return person;
                     }
                 }
+            )
+        };
+    }
+
+    if (action.type == "END_FRIEND") {
+        return { ...state,
+            listFriendsWannabes: state.listFriendsWannabes.filter(
+                person => !(person.id == action.otherId)
             )
         };
     }

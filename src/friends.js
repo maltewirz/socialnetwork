@@ -1,6 +1,6 @@
 import React, { useEffect }  from 'react';
 import { connect } from 'react-redux';
-import { getFriendsWannabes, acceptFriend } from './actions';
+import { getFriendsWannabes, acceptFriend, endFriend } from './actions';
 import { ProfilePic } from './profilepic';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +36,9 @@ export function Friends(props) {  // not sure if props correct here
                                     { person.first } { person.last }
                                 </div>
                             </Link>
-                            <button> End Friendship </button>
+                            <button onClick={
+                                () => props.dispatch(endFriend(person.id))
+                            }> End Friendship </button>
                         </div>
                     </div>
                 );
