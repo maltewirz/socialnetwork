@@ -14,6 +14,7 @@ import Friends from './friends';
 
 export function App() {
     const [state, setState] = useState({});
+    const [uploaderVisible, setUploaderVisible] = useState(false);
 
     useEffect(() => {
         let abort;
@@ -32,8 +33,8 @@ export function App() {
         };
     },[state.bio]);
 
-    console.log("state id ", state.id);
-    console.log("state bio", state);
+
+    console.log("state", state);
 
     if (!state.id) {
         return <img src="/spinner.gif"/>;
@@ -51,7 +52,7 @@ export function App() {
                         imageUrl={state.pic_url}
                         first={state.first}
                         last={state.last}
-                        clickHandler={() => setState({ uploaderVisible: true })}
+                        clickHandler={() => setUploaderVisible(true)}
                     />
 
                 </div>
@@ -68,7 +69,7 @@ export function App() {
                                         imageUrl={state.pic_url}
                                         first={state.first}
                                         last={state.last}
-                                        clickHandler={() => setState({ uploaderVisible: true })}
+                                        clickHandler={() => setUploaderVisible(true)}
                                     />
                                 }
                                 bioEditor={
@@ -76,12 +77,12 @@ export function App() {
                                         bio={state.bio}
                                         bioVisible={state.bioVisible}
                                         setBio={bio => {
-                                            console.log("bio in app.js" , bio);
-                                            console.log("state in bio function", state.bio);
+                                            // console.log("bio in app.js" , bio);
+                                            // console.log("state in bio function", state.bio);
                                             setState({
                                                 bio: bio
                                             });
-                                            console.log("state after", state.bio);
+                                            // console.log("state after", state.bio);
                                         }}
                                     />
                                 }
@@ -104,15 +105,17 @@ export function App() {
                     <Route path="/friends" component={Friends} />
                 </div>
                 <div className="uploader">
-                    {state.uploaderVisible &&
+                    {uploaderVisible &&
                         <Uploader
-                            changeImage={img => setState({
-                                pic_url: img,
-                                uploaderVisible: false
-                            })}
-                            closeModal={() => setState({
-                                uploaderVisible: false
-                            })}
+                            changeImage={img =>
+                            {
+                                setUploaderVisible(false);
+                                setState({
+                                    pic_url: img
+                                });
+                            }
+                            }
+                            closeModal={() => setUploaderVisible(false)}
                         />}
                 </div>
             </div>
