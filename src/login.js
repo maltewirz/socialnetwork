@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
 import { useStatefulFields, useAuthSubmit} from './hooks';
@@ -6,18 +6,6 @@ import { useStatefulFields, useAuthSubmit} from './hooks';
 export function Login() {
     const [values, handleChange] = useStatefulFields();
     const [submit, error] = useAuthSubmit('/login', values);
-
-    // useEffect(() => { // gives short term error message - fix
-    //     window.addEventListener('keydown', e => {
-    //         if (e.keyCode === 13) {
-    //             submit();
-    //         }
-    //     });
-    //
-    //     return () => {
-    //
-    //     };
-    // },[]);
 
     return (
         <div className="regWrapper">

@@ -1,68 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "./axios";
 
-export class BioEditor extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+export function BioEditor(props) {
+    const [bioLocal, setBioLocal] = useState("");
+    const [bioVisible, setBioVisible] = useState(false);
+    console.log("props", props);
+    console.log("bioLocal ", bioLocal);
+    console.log("bioVisible ", bioVisible);
 
-    async submit() {
-        if (this.state.bio == "" || this.state.bio == undefined) {
-            this.setState({
-                bio: null
-            });
+    async function submit() {
+        if (bioLocal == "" || bioLocal == undefined) {
+            setBioLocal(null);
         }
         try {
             let resp = await axios.post("/addBio", {
-                bio: this.state.bio
+                bio: bioLocal
             });
             if (resp.data.success) {
-                this.props.setBio(this.state.bio);
-                this.setState({
-                    bioVisible: false,
-                    bio: ""
-                });
+                props.setBio(bioLocal);
+                setBioLocal("");
+                setBioVisible(false);
             }
         } catch(err) {
             console.log("err in post /addBio", err);
         }
     }
 
-    openBioEditor() {
-        this.setState({
-            bioVisible: true
-        });
+    function openBioEditor() {
+        setBioVisible(true);
     }
 
-    handleInput({ target} ) {
-        this.setState({
-            bio: target.value
-        });
+    function handleInput({ target} ) {
+        setBioLocal(target.value);
     }
 
-    render() {
-        return (
-            <div>
-                {this.props.bio && !this.state.bioVisible &&
-                    <div className="editBio">
-                        {this.props.bio}
-                        <button className="editButton" onClick={() => this.openBioEditor()}> Edit Bio </button>
-                    </div>
-                }
-                {!this.props.bio && !this.state.bioVisible &&
-                    <div className="addBio"> Add your Bio now!
-                        <button className="addButton" onClick={() => this.openBioEditor()}> Add Bio </button>
-                    </div>
-                }
-                {this.state.bioVisible &&
-                    <div>
-                        <p>Enter your bio here:</p>
-                        <textarea className="textarea" defaultValue={this.props.bio} onChange={e => this.handleInput(e)}/>
-                        <button className="saveButton" type="submit" onClick={() => this.submit()}>Save</button>
-                    </div>
-                }
-            </div>
-        );
-    }
+    return (
+        <div>
+            {props.bio && !bioVisible &&
+                <div className="editBio">
+                    {props.bio}
+                    <button className="editButton" onClick={() => openBioEditor()}> Edit Bio </button>
+                </div>
+            }
+            {!props.bio && !bioVisible &&
+                <div className="addBio"> Add your Bio now!
+                    <button className="addButton" onClick={() => openBioEditor()}> Add Bio </button>
+                </div>
+            }
+            {bioVisible &&
+                <div>
+                    <p>Enter your bio here:</p>
+                    <textarea className="textarea" defaultValue={props.bio} onChange={e => handleInput(e)}/>
+                    <button className="saveButton" type="submit" onClick={() => submit()}>Save</button>
+                </div>
+            }
+        </div>
+    );
 }
