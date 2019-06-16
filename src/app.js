@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "./axios";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -14,14 +14,12 @@ import Friends from './friends';
 
 
 export function App() {
-    const [state, setState] = useEffect({});
-    console.log("state", state);
+    const [state, setState] = useState({});
 
     useEffect(() => {
         (async () => {
             try {
                 let { data } = await axios.get("/user");
-                console.log("data", data);
                 setState(data);
             } catch(err) {
                 console.log("err in axios get /user", err);
