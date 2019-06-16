@@ -10,22 +10,29 @@ export function FindPeople() {
 
     useEffect(() => {
         (async () => {
-            let { data }  = await axios.get('/users/latest');
-            setUsers(data);
+            try {
+                let { data }  = await axios.get('/users/latest');
+                setUsers(data);
+            } catch(err) {
+                console.log("err in axios.get('/users/latest'", err);
+            }
         })();
     },[]);
 
     useEffect(() => {
         (async () => {
-            let { data } = await axios.post(`/users/search/`,{currentQuery});
-            if (data.error) {
-                setError("No results");
-                setUsers(data);
-            } else {
-                setError("");
-                setUsers(data);
+            try {
+                let { data } = await axios.post(`/users/search/`,{currentQuery});
+                if (data.error) {
+                    setError("No results");
+                    setUsers(data);
+                } else {
+                    setError("");
+                    setUsers(data);
+                }
+            } catch(err) {
+                console.log("err in xios.post(`/users/search/`,{currentQuery})", err);
             }
-
         })();
     }, [currentQuery]);
 
