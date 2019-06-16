@@ -4,15 +4,13 @@ import { Login } from "./login";
 import { Registration } from "./registration";
 
 
-export class Welcome extends React.Component {
-    render() {
-        return (
-            <HashRouter>
-                <div>
-                    <Route exact path="/" component={Registration} />
-                    <Route path="/login" component={Login} />
-                </div>
-            </HashRouter>
-        );
-    }
+export function Welcome() {
+    return (
+        <HashRouter>
+            <div>
+                <Route exact path="/" component={Registration} />
+                <Route path="/login" component={Login} />
+            </div>
+        </HashRouter>
+    );
 }
