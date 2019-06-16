@@ -31,7 +31,7 @@ export function FindPeople() {
                     setUsers(data);
                 }
             } catch(err) {
-                console.log("err in xios.post(`/users/search/`,{currentQuery})", err);
+                console.log("err in axios.post(`/users/search/`,{currentQuery})", err);
             }
         })();
     }, [currentQuery]);
