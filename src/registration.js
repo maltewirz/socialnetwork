@@ -31,8 +31,8 @@ export function Registration() {
                 onChange={handleChange}
             />
             <input
-                name="password 8 char"
-                placeholder="password"
+                name="password"
+                placeholder="password 8 char"
                 type="password"
                 onChange={handleChange}
             />
