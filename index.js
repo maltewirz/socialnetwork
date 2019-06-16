@@ -85,11 +85,10 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
     next();
 });
 
-
 app.post("/register", async (req, res) => {
     try {
         let { first, last, email, password } = req.body;
-        if (password == undefined) {
+        if (password == undefined || password.length < 8) {
             res.json({ error: true });
             return;
         }
