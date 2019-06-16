@@ -4,18 +4,29 @@ import axios from "./axios";
 export function BioEditor(props) {
     const [bioLocal, setBioLocal] = useState("");
     const [bioVisible, setBioVisible] = useState(false);
+    console.log("bioLocal", bioLocal);
+    console.log("bioVisible", bioVisible);
 
     async function submit() {
+        console.log("bioLocal in submit", bioLocal);
         if (bioLocal == "" || bioLocal == undefined) {
             setBioLocal(null);
         }
         try {
+            console.log("arriving here?");
             let resp = await axios.post("/addBio", {
                 bio: bioLocal
             });
             if (resp.data.success) {
+
+                console.log("am i runig?1");
+                console.log("props here", props);
                 props.setBio(bioLocal);
+
+                console.log("am i runig?2");
                 setBioLocal("");
+
+                console.log("am i runig?3");
                 setBioVisible(false);
             }
         } catch(err) {

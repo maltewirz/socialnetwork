@@ -12,7 +12,6 @@ import { OtherProfile } from "./otherprofile";
 import { FindPeople } from './findpeople';
 import Friends from './friends';
 
-
 export function App() {
     const [state, setState] = useState({});
 
@@ -31,8 +30,10 @@ export function App() {
         return () => {
             abort = true;
         };
-    },[]);
+    },[state.bio]);
 
+    console.log("state id ", state.id);
+    console.log("state bio", state);
 
     if (!state.id) {
         return <img src="/spinner.gif"/>;
@@ -74,9 +75,14 @@ export function App() {
                                     <BioEditor
                                         bio={state.bio}
                                         bioVisible={state.bioVisible}
-                                        setBio={bio => setState({
-                                            bio: bio
-                                        })}
+                                        setBio={bio => {
+                                            console.log("bio in app.js" , bio);
+                                            console.log("state in bio function", state.bio);
+                                            setState({
+                                                bio: bio
+                                            });
+                                            console.log("state after", state.bio);
+                                        }}
                                     />
                                 }
                             />
