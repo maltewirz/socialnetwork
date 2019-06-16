@@ -33,8 +33,7 @@ export function App() {
         };
     },[state.bio]);
 
-
-    console.log("state", state);
+    // console.log("state", state);
 
     if (!state.id) {
         return <img src="/spinner.gif"/>;
@@ -77,11 +76,12 @@ export function App() {
                                         bio={state.bio}
                                         bioVisible={state.bioVisible}
                                         setBio={bio => {
-                                            // console.log("bio in app.js" , bio);
+                                            // console.log("state in app.js" , state);
                                             // console.log("state in bio function", state.bio);
                                             setState({
                                                 bio: bio
                                             });
+                                            // console.log("state in app.js" , state);
                                             // console.log("state after", state.bio);
                                         }}
                                     />

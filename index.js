@@ -88,26 +88,11 @@ app.get("/welcome", checkLoggedIn, function(req, res, next) {
 const register = require("./routers/register");
 app.use(register);
 
+const login = require("./routers/login");
+app.use(login);
 
-app.post("/login", async (req, res) => {
-    try {
-        let { email, password } = req.body;
-        let dbEmail = await db.getEmailPassword(email);
-        if (dbEmail.rows[0] != undefined) {
-            let passwordDb = dbEmail.rows[0].password;
-            let authTrue = await bc.checkPassword(password, passwordDb);
-            if (authTrue) {
-                req.session.userId = dbEmail.rows[0].id;
-                res.json({ error: false });
-            }
-        } else {
-            res.json({ error: true });
-        }
-    } catch(err) {
-        console.log("err in post /login", err);
-        res.json({ error: true });
-    }
-});
+const getfriends = require("./routers/getfriends");
+app.use(getfriends);
 
 app.get("/user", async (req, res) => {
     try {
@@ -188,29 +173,7 @@ app.post("/users/search/", async (req, res) => {
     }
 });
 
-app.get('/getFriends/:otherId', async (req, res) => {
-    let myId = req.session.userId;
-    let otherId = req.params.otherId;
-
-    try {
-        let { rows } = await db.getUserRelation(myId, otherId);
-        let resp = rows[0];
-        if (resp == undefined) {
-            return null;
-        }
-        if (resp.accepted) {
-            res.json({button: "Unfriend"});
-        } else if (resp.sender_id == myId && resp.receiver_id == otherId) {
-            res.json({button: "Cancel Friend Request"});
-        } else if (resp.sender_id == otherId && resp.receiver_id == myId) {
-            res.json({button: "Accept Friend Request"});
-        } else if (resp.accepted == false) {
-            res.json({button: "Send Friend Request"});
-        }
-    } catch(err) {
-        console.log("err in app.get('/getFriends/:otherId'", err);
-    }
-});
+//other id
 
 app.post(`/changeFriendRelation`, async (req, res) => {
     let myId = req.session.userId;
