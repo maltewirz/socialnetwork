@@ -4,9 +4,6 @@ import axios from "./axios";
 export function BioEditor(props) {
     const [bioLocal, setBioLocal] = useState("");
     const [bioVisible, setBioVisible] = useState(false);
-    console.log("props", props);
-    console.log("bioLocal ", bioLocal);
-    console.log("bioVisible ", bioVisible);
 
     async function submit() {
         if (bioLocal == "" || bioLocal == undefined) {
