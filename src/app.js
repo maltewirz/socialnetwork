@@ -17,14 +17,20 @@ export function App() {
     const [state, setState] = useState({});
 
     useEffect(() => {
+        let abort;
         (async () => {
             try {
                 let { data } = await axios.get("/user");
-                setState(data);
+                if (!abort) {
+                    setState(data);
+                }
             } catch(err) {
                 console.log("err in axios get /user", err);
             }
         })();
+        return () => {
+            abort = true;
+        };
     },[]);
 
 
