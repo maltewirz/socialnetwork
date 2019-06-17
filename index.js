@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server, { origins: 'localhost:8080' });
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 const csurf = require("csurf");
@@ -26,6 +28,8 @@ const uploader = multer({
         fileSize: 2097152
     }
 });
+
+
 ////////////////////////// Modules
 app.use(compression());
 app.use(express.static("./public")); //access to logos etc
@@ -215,6 +219,14 @@ app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening on 8080 and proxy on 8081.");
+});
+
+
+io.on('connection', socket => {
+    console.log(`Socket with id ${socket.id} just connected`);
+    socket.on('disconnect', () => {
+        console.log(`Socket with id ${socket.id} just disconnected`);
+    });
 });
