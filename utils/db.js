@@ -20,7 +20,7 @@ module.exports.addUser = function addUser(first, last, email, password) {
 module.exports.getEmailPassword = function getEmailPassword(email) {
     return db.query(
         `
-        SELECT password, id
+        SELECT password, id, first, last
         FROM users
         WHERE email=$1;
         `,
@@ -116,11 +116,19 @@ module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
 
 module.exports.getChatMessages = function getChatMessages() {
     return db.query(`
-        SELECT message, user_id, first, last, chat_messages.id
+        SELECT message, user_id, first, last, chat_messages.id, chat_messages.created_at
         FROM chat_messages
         JOIN users
         ON users.id = chat_messages.user_id
         ORDER BY chat_messages.id DESC
         LIMIT 10;
         `);
+};
+
+module.exports.addChatMessage = function addChatMessage(message, userId) {
+    return db.query(`
+        INSERT INTO chat_messages (message, user_id)
+        VALUES ($1, $2)
+        RETURNING id, created_at;
+        `, [message, userId]);
 };

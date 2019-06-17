@@ -33,3 +33,11 @@ export async function chatMessages() {
         chatMessages: data
     };
 }
+
+export async function chatMessage(data) {
+    console.log(data);
+    return {
+        type: "ADD_CHAT_MESSAGE",
+        chatMessage: data.message
+    };
+}

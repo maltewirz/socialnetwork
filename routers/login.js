@@ -15,6 +15,8 @@ router.post("/login", async (req, res) => {
             let authTrue = await bc.checkPassword(password, passwordDb);
             if (authTrue) {
                 req.session.userId = dbEmail.rows[0].id;
+                req.session.first= dbEmail.rows[0].first;
+                req.session.last= dbEmail.rows[0].last;
                 res.json({ error: false });
             }
         } else {

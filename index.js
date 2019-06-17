@@ -236,21 +236,32 @@ server.listen(8080, function() {
 
 
 io.on('connection', socket => {
-    if (!socket.request.session.userId) {
+    const {userId, first, last} = socket.request.session;
+
+    if (!userId) {
         return socket.disconnect(true);
     }
 
     socket.emit("chatMessages");
 
-    const userId = socket.request.session.userId;
-    // console.log("userId in socket: ", userId);
+    socket.on("newCommentComing", async function(data) {
+        try {
+            let resp = await db.addChatMessage(data.message, userId);
+            io.sockets.emit("chatMessage", {
+                message: data.message,
+                message_id: resp.rows[0].id,
+                created_at: resp.rows[0].created_at,
+                first: first,
+                last: last,
+                userId: userId
+            });
+        } catch(err) {
+            console.log(`err in socket.on("newCommentComing"`, err);
+        }
+    });
 
     // console.log(`Socket with id ${socket.id} just connected`);
     // socket.on('disconnect', () => {
     //     console.log(`Socket with id ${socket.id} just disconnected`);
     // });
-
-
-
-
 });
