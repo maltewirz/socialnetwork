@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: 'localhost:8080' });
+const io = require('socket.io')(server, { origins: 'localhost:8080' }); // add homepage herokuapp here later
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 const csurf = require("csurf");
@@ -28,18 +28,19 @@ const uploader = multer({
         fileSize: 2097152
     }
 });
-
+const cookieSessionMiddleware = cookieSession({
+    secret: cookieSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
 
 ////////////////////////// Modules
 app.use(compression());
 app.use(express.static("./public")); //access to logos etc
 app.use(express.json()); // enables req.body
-app.use(
-    cookieSession({
-        secret: cookieSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 app.use(csurf());
 
 //Middleware: csrfToken and forbid Header iframe
@@ -225,8 +226,16 @@ server.listen(8080, function() {
 
 
 io.on('connection', socket => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+    console.log("userId in socket: ", userId);
+
     console.log(`Socket with id ${socket.id} just connected`);
     socket.on('disconnect', () => {
         console.log(`Socket with id ${socket.id} just disconnected`);
     });
+
 });
