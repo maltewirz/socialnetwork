@@ -113,3 +113,14 @@ module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
         OR (accepted = true AND sender_id = $1 AND receiver_id = users.id);
         `, [myId]);
 };
+
+module.exports.getChatMessages = function getChatMessages() {
+    return db.query(`
+        SELECT message, user_id, first, last, chat_messages.id
+        FROM chat_messages
+        JOIN users
+        ON users.id = chat_messages.user_id
+        ORDER BY chat_messages.id DESC
+        LIMIT 10;
+        `);
+};

@@ -27,5 +27,12 @@ export function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "GET_CHAT_MESSAGES") {
+        return {
+            ...state,
+            chatMessages: action.chatMessages
+        };
+    }
+
     return state;
 }

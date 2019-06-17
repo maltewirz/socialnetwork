@@ -25,3 +25,11 @@ export async function endFriend(otherId) {
         otherId: otherId
     };
 }
+
+export async function chatMessages() {
+    let { data } = await axios.get("/chatMessages");
+    return {
+        type: "GET_CHAT_MESSAGES",
+        chatMessages: data
+    };
+}

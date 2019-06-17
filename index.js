@@ -211,6 +211,16 @@ app.get('/friends-wannabes', async (req, res) => {
     }
 });
 
+app.get('/chatMessages', async (req, res) => {
+    try {
+        let resp = await db.getChatMessages();
+        res.json(resp.rows);
+    } catch(err) {
+        console.log("err in app.get('/chatMessages'", err);
+    }
+
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
@@ -230,12 +240,17 @@ io.on('connection', socket => {
         return socket.disconnect(true);
     }
 
-    const userId = socket.request.session.userId;
-    console.log("userId in socket: ", userId);
+    socket.emit("chatMessages");
 
-    console.log(`Socket with id ${socket.id} just connected`);
-    socket.on('disconnect', () => {
-        console.log(`Socket with id ${socket.id} just disconnected`);
-    });
+    const userId = socket.request.session.userId;
+    // console.log("userId in socket: ", userId);
+
+    // console.log(`Socket with id ${socket.id} just connected`);
+    // socket.on('disconnect', () => {
+    //     console.log(`Socket with id ${socket.id} just disconnected`);
+    // });
+
+
+
 
 });

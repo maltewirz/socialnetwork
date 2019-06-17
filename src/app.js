@@ -10,7 +10,7 @@ import { ProfilePic } from "./profilepic";
 import { BioEditor } from "./bioeditor";
 import { OtherProfile } from "./otherprofile";
 import { FindPeople } from './findpeople';
-import { Chat } from './chat';
+import Chat from './chat';
 import Friends from './friends';
 
 export function App() {
