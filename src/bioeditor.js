@@ -14,9 +14,9 @@ export function BioEditor(props) {
                 bio: bioLocal
             });
             if (resp.data.success) {
-                props.setBio(bioLocal);  // this is the one responsible for error
                 setBioLocal("");
                 setBioVisible(false);
+                props.setBio(bioLocal);
             }
         } catch(err) {
             console.log("err in post /addBio", err);

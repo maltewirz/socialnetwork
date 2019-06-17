@@ -173,8 +173,6 @@ app.post("/users/search/", async (req, res) => {
     }
 });
 
-//other id
-
 app.post(`/changeFriendRelation`, async (req, res) => {
     let myId = req.session.userId;
     let otherId = req.body.otherId;
