@@ -7,7 +7,7 @@ router.post("/register", async (req, res) => {
     try {
         let { first, last, email, password } = req.body;
         if (password == undefined || password.length < 8) {
-            res.json({ error: true });
+            res.json({ pwError: true });
             return;
         }
         let passHash = await bc.hashPassword(password);

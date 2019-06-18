@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from './axios';
 
 export function useStatefulFields() {
@@ -19,7 +19,9 @@ export function useAuthSubmit(url, values) {
     const submit = async () => {
         try {
             let { data } = await axios.post(url, values);
-            if (data.error) {
+            if (data.pwError) {
+                setError("Password needs to be 8 characters long!");
+            } else if (data.error) {
                 setError("Something went wrong, please try again!");
             } else {
                 location.href = "/";
