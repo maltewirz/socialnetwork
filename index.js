@@ -218,7 +218,6 @@ app.get('/chatMessages', async (req, res) => {
     } catch(err) {
         console.log("err in app.get('/chatMessages'", err);
     }
-
 });
 
 app.get("/logout", (req, res) => {
@@ -236,8 +235,7 @@ server.listen(8080, function() {
 
 
 io.on('connection', socket => {
-    const {userId, first, last} = socket.request.session;
-
+    const {userId, first, last, pic_url} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
     }
@@ -253,7 +251,8 @@ io.on('connection', socket => {
                 created_at: resp.rows[0].created_at,
                 first: first,
                 last: last,
-                user_id: userId
+                user_id: userId,
+                pic_url: pic_url
             });
         } catch(err) {
             console.log(`err in socket.on("newCommentComing"`, err);

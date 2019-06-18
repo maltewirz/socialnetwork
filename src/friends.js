@@ -11,8 +11,6 @@ export function Friends(props) {
         props.dispatch(getFriendsWannabes());
     }, []);
 
-    console.log(props);
-
     if (!props.friends) {
         return <div> Loading </div>;
     }

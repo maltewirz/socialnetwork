@@ -9,7 +9,7 @@ const bc = require("../utils/bc");
 router.post("/login", async (req, res) => {
     try {
         let { email, password } = req.body;
-        let dbEmail = await db.getEmailPassword(email);
+        let dbEmail = await db.getUserByEmail(email);
         if (dbEmail.rows[0] != undefined) {
             let passwordDb = dbEmail.rows[0].password;
             let authTrue = await bc.checkPassword(password, passwordDb);
@@ -17,6 +17,7 @@ router.post("/login", async (req, res) => {
                 req.session.userId = dbEmail.rows[0].id;
                 req.session.first= dbEmail.rows[0].first;
                 req.session.last= dbEmail.rows[0].last;
+                req.session.pic_url = dbEmail.rows[0].pic_url;
                 res.json({ error: false });
             }
         } else {

@@ -39,6 +39,7 @@ export function Chat(props) {
                         <div className="profileBox" key={ comment.id }>
                             <div>
                                 <ProfilePic
+                                    imageUrl={comment.pic_url}
                                     first={comment.first}
                                     last={comment.last}
                                 />
