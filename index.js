@@ -135,16 +135,6 @@ app.get('/friends-wannabes', async (req, res) => {
     }
 });
 
-app.get('/chatMessages', async (req, res) => {
-    console.log("running app.get('/chatMessages'");
-    try {
-        let resp = await db.getChatMessages();
-        res.json(resp.rows.reverse());
-    } catch(err) {
-        console.log("err in app.get('/chatMessages'", err);
-    }
-});
-
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
@@ -158,13 +148,20 @@ server.listen(8080, function() {
     console.log("I'm listening on 8080 and proxy on 8081.");
 });
 
-io.on('connection', socket => {
+io.on('connection', async socket => {
     // console.log(`Socket with id ${socket.id} just connected`);
     const {userId} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
     }
-    socket.emit("chatMessages");
+    try {
+        let resp = await db.getChatMessages();
+        let chatMessages = resp.rows.reverse();
+        socket.emit("chatMessages", chatMessages);
+    } catch(err) {
+        console.log("err in app.get('/chatMessages'", err);
+    }
+
     socket.on("newCommentComing", async function(data) {
         try {
             let resp = await db.addChatMessage(data.message, userId);

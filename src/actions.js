@@ -26,17 +26,16 @@ export async function endFriend(otherId) {
     };
 }
 
-export async function chatMessages() {
-    let { data } = await axios.get("/chatMessages");
+export async function chatMessages(msgs) {
     return {
         type: "GET_CHAT_MESSAGES",
-        chatMessages: data
+        chatMessages: msgs
     };
 }
 
-export async function chatMessage(data) {
+export async function chatMessage(msg) {
     return {
         type: "ADD_CHAT_MESSAGE",
-        chatMessage: data
+        chatMessage: msg
     };
 }
