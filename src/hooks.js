@@ -35,13 +35,15 @@ export function useAuthSubmit(url, values) {
 
 
 export function useEnter(submit) {
+    let test = function(e){
+        if (e.keyCode === 13) {
+            submit();
+        }
+    };
     useEffect(() => {
-        window.addEventListener('keydown', e => {
-            if (e.keyCode === 13) {
-                submit();
-            }
-        });
+        window.addEventListener('keydown', test);
         return () => {
+            window.removeEventListener('keydown', test);
         };
-    },[]);
+    });
 }

@@ -4,7 +4,6 @@ const db = require("../utils/db");
 const bc = require("../utils/bc");
 
 router.post("/register", async (req, res) => {
-    console.log("running register", req.body);
     try {
         let { first, last, email, password } = req.body;
         if (password == undefined || password.length < 8) {
