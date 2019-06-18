@@ -136,6 +136,7 @@ app.get('/friends-wannabes', async (req, res) => {
 });
 
 app.get('/chatMessages', async (req, res) => {
+    console.log("running app.get('/chatMessages'");
     try {
         let resp = await db.getChatMessages();
         res.json(resp.rows.reverse());
@@ -169,6 +170,7 @@ io.on('connection', socket => {
             let resp = await db.addChatMessage(data.message, userId);
             let messageId = resp.rows[0].id;
             let respPic = await db.getChatMessage(messageId);
+            respPic.rows[0].created_at = respPic.rows[0].created_at.toLocaleString();
             io.sockets.emit("chatMessage", respPic.rows);
         } catch(err) {
             console.log(`err in socket.on("newCommentComing"`, err);
