@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { ProfilePic } from './profilepic';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,14 @@ import { socket } from './socket';
 
 export function Chat(props) {
     const [newComment, setNewComment] = useState("");
+    const elemRef = useRef();
+
+    useEffect(()=> {
+        if (elemRef.current) {
+            let bottomPositionComments = elemRef.current.scrollHeight + elemRef.current.offsetHeight;
+            elemRef.current.scrollTop = bottomPositionComments;
+        }
+    });
 
     function submit() {
         socket.emit("newCommentComing",{
@@ -22,31 +30,32 @@ export function Chat(props) {
     }
 
     return(
-
         <div>
             <h1> Chat </h1>
-            {props.chatMessages && props.chatMessages.map(comment => {
-                return (
-                    <div className="profileBox" key={ comment.id }>
-                        <div>
-                            <ProfilePic
-                                first={comment.first}
-                                last={comment.last}
-                            />
-                        </div>
-                        <div className="profileBoxBio">
-                            <Link to={"/user/" + comment.user_id}>
-                                <div className="profileNameBox">
-                                    { comment.first } { comment.last }
-                                </div>
+            <div className="chatBox" ref={elemRef}>
+                {props.chatMessages && props.chatMessages.map(comment => {
+                    return (
+                        <div className="profileBox" key={ comment.id }>
+                            <div>
+                                <ProfilePic
+                                    first={comment.first}
+                                    last={comment.last}
+                                />
+                            </div>
+                            <div className="profileBoxBio">
+                                <Link to={"/user/" + comment.user_id}>
+                                    <div className="profileNameBox">
+                                        { comment.first } { comment.last }
+                                    </div>
 
-                            </Link>
-                            <div> { comment.message } </div>
-                            <div> { comment.created_at} </div>
+                                </Link>
+                                <div> { comment.message } </div>
+                                <div> { comment.created_at} </div>
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+            </div>
             <input type="text" onChange={e => handleInput(e)} />
             <button type="submit" onClick={() => submit()}> Add Comment </button>
         </div>
