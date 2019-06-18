@@ -35,7 +35,6 @@ export async function chatMessages() {
 }
 
 export async function chatMessage(data) {
-    console.log(data);
     return {
         type: "ADD_CHAT_MESSAGE",
         chatMessage: data

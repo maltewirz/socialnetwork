@@ -3,31 +3,10 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, { origins: 'localhost:8080' }); // add homepage herokuapp here later
 const db = require("./utils/db");
-const bc = require("./utils/bc");
 const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const cookieSecret = require("./secrets/cookieSecret");
-const s3 = require("./utils/s3");
-const multer = require("multer");
-const uidSafe = require("uid-safe");
-const path = require("path");
-const diskStorage = multer.diskStorage({
-    destination: function(req, file, callback) {
-        callback(null, __dirname + "/uploads");
-    },
-    filename: function(req, file, callback) {
-        uidSafe(24).then(function(uid) {
-            callback(null, uid + path.extname(file.originalname));
-        });
-    }
-});
-const uploader = multer({
-    storage: diskStorage,
-    limits: {
-        fileSize: 2097152
-    }
-});
 const cookieSessionMiddleware = cookieSession({
     secret: cookieSecret,
     maxAge: 1000 * 60 * 60 * 24 * 90
@@ -96,8 +75,21 @@ app.use(register);
 const login = require("./routers/login");
 app.use(login);
 
-const getfriends = require("./routers/getfriends");
-app.use(getfriends);
+const getFriends = require("./routers/getfriends");
+app.use(getFriends);
+
+const changeFriendRelation = require("./routers/changefriendrelation");
+app.use(changeFriendRelation);
+
+const otherUser = require("./routers/otheruser");
+app.use(otherUser);
+
+const userSearch = require("./routers/usersearch");
+app.use(userSearch);
+
+const upload = require("./routers/upload");
+app.use(upload);
+
 
 app.get("/user", async (req, res) => {
     try {
@@ -105,20 +97,6 @@ app.get("/user", async (req, res) => {
         res.json(resp.rows[0]);
     } catch(err) {
         console.log("err in db.getUser",err);
-    }
-});
-
-app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
-    let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
-    if (req.file) {
-        try {
-            await db.addImage(url, req.session.userId);
-            res.json({
-                url: url || './avatar.png'
-            });
-        } catch(err) {
-            console.log("err in post /upload",err);
-        }
     }
 });
 
@@ -133,71 +111,12 @@ app.post("/addBio", async (req, res) => {
     }
 });
 
-app.get("/otherUser/:otherId", async (req, res)=> {
-    if (req.params.otherId == req.session.userId) {
-        res.json({
-            sameUser:true
-        });
-    } else {
-        try {
-            let data = await db.getUser(req.params.otherId);
-            if (data.rows[0] == undefined) {
-                res.json({error: true});
-            }
-            res.json(data.rows[0]);
-        } catch(err) {
-            console.log("err app.get(/otherUser/:otherId",err);
-        }
-    }
-});
-
 app.get('/users/latest', async (req, res) => {
     try {
         let { rows } = await db.lastUsers();
         res.json(rows);
     } catch(err) {
         console.log("err in app.get('/users/latest'", err);
-    }
-});
-
-app.post("/users/search/", async (req, res) => {
-    let currentQuery = req.body.currentQuery;
-    if (currentQuery == "") {
-        res.redirect('/users/latest');
-    } else {
-        try {
-            let { rows } = await db.searchUsers(currentQuery);
-            if (rows.length == 0) {
-                res.json({error:true});
-            } else {
-                res.json(rows);
-            }
-        } catch(err) {
-            console.log(`err in app.post("/users/search/"`, err);
-        }
-    }
-});
-
-app.post(`/changeFriendRelation`, async (req, res) => {
-    let myId = req.session.userId;
-    let otherId = req.body.otherId;
-    let butPressed = req.body.buttonMsg;
-    try {
-        if (butPressed == "Unfriend" || butPressed == "Cancel Friend Request") {
-            await db.deleteUserRelation(myId, otherId);
-            res.json({button: "Send Friend Request"});
-        }
-        if (butPressed == "Accept Friend Request") {
-            await db.acceptUserRelation(myId, otherId);
-            res.json({button: "Unfriend"});
-        }
-        if (butPressed == "Send Friend Request") {
-            await db.sendUserRelation(myId, otherId);
-            res.json({button: "Cancel Friend Request"});
-        }
-    } catch(err) {
-        console.log("err in app.post(`/addFriendRelation`", err);
-        res.json({button: "Send Friend Request"});
     }
 });
 
@@ -234,6 +153,7 @@ server.listen(8080, function() {
 });
 
 io.on('connection', socket => {
+    // console.log(`Socket with id ${socket.id} just connected`);
     const {userId} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
@@ -249,8 +169,6 @@ io.on('connection', socket => {
             console.log(`err in socket.on("newCommentComing"`, err);
         }
     });
-
-    // console.log(`Socket with id ${socket.id} just connected`);
     // socket.on('disconnect', () => {
     //     console.log(`Socket with id ${socket.id} just disconnected`);
     // });

@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-//technically not needed but for linter:
 const db = require("../utils/db");
 const bc = require("../utils/bc");
-
-
 
 router.post("/register", async (req, res) => {
     try {

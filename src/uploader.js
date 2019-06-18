@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "./axios";
 
-
 export function Uploader(props) {
 
     async function handleInput({ target }) {

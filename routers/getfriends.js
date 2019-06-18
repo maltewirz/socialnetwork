@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-//technically not needed but for linter:
 const db = require("../utils/db");
 
 router.get('/getFriends/:otherId', async (req, res) => {
