@@ -19,6 +19,7 @@ export function Chat(props) {
         socket.emit("newCommentComing",{
             message: newComment
         });
+        setNewComment("");
     }
 
     function handleInput({ target }) {
@@ -56,7 +57,7 @@ export function Chat(props) {
                     );
                 })}
             </div>
-            <input type="text" onChange={e => handleInput(e)} />
+            <input type="text" value={newComment} onChange={e => handleInput(e)} />
             <button type="submit" onClick={() => submit()}> Add Comment </button>
         </div>
 
