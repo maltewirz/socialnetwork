@@ -52,7 +52,7 @@ export function Chat(props) {
 
                                 </Link>
                                 <div> { comment.message } </div>
-                                <div> { comment.created_at } </div>
+                                <div> { comment.createdat } </div>
                             </div>
                         </div>
                     );

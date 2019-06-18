@@ -157,8 +157,9 @@ io.on('connection', async socket => {
     try {
         let resp = await db.getChatMessages();
         let chatMessages = resp.rows.reverse();
+
         chatMessages.map(message => {
-            message.created_at = message.created_at.toLocaleString();
+            message.createdat = message.createdat.toLocaleString();
         });
         socket.emit("chatMessages", chatMessages);
     } catch(err) {
@@ -170,7 +171,7 @@ io.on('connection', async socket => {
             let resp = await db.addChatMessage(data.message, userId);
             let messageId = resp.rows[0].id;
             let respPic = await db.getChatMessage(messageId);
-            respPic.rows[0].created_at = respPic.rows[0].created_at.toLocaleString();
+            respPic.rows[0].createdat = respPic.rows[0].createdat.toLocaleString();
             io.sockets.emit("chatMessage", respPic.rows);
         } catch(err) {
             console.log(`err in socket.on("newCommentComing"`, err);

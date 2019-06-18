@@ -116,7 +116,7 @@ module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
 
 module.exports.getChatMessages = function getChatMessages() {
     return db.query(`
-        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at
+        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at AS createdat
         FROM chat_messages
         JOIN users
         ON users.id = chat_messages.user_id
@@ -136,7 +136,7 @@ module.exports.addChatMessage = function addChatMessage(message, userId) {
 
 module.exports.getChatMessage = function getChatMessage(messageId) {
     return db.query(`
-        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at
+        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at AS createdat
         FROM chat_messages
         JOIN users
         ON users.id = chat_messages.user_id
