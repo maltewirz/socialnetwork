@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from './axios';
 
 export function useStatefulFields() {
@@ -31,4 +31,17 @@ export function useAuthSubmit(url, values) {
         }
     };
     return [submit, error];
+}
+
+
+export function useEnter(submit) {
+    useEffect(() => {
+        window.addEventListener('keydown', e => {
+            if (e.keyCode === 13) {
+                submit();
+            }
+        });
+        return () => {
+        };
+    },[]);
 }

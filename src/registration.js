@@ -1,11 +1,13 @@
 import React from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
-import { useStatefulFields, useAuthSubmit } from './hooks';
+import { useStatefulFields, useAuthSubmit, useEnter } from './hooks';
 
 export function Registration() {
     const [values, handleChange] = useStatefulFields();
     const [submit, error] = useAuthSubmit('/register', values);
+
+    useEnter(submit);
 
     return(
         <div className="regWrapper">
