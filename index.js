@@ -6,9 +6,14 @@ const db = require("./utils/db");
 const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
-const cookieSecret = require("./secrets/cookieSecret");
+let secrets;
+if (process.env.NODE_ENV == "production") {
+    secrets = process.env; // in prod the secrets are environment variables
+} else {
+    secrets = require("./secrets"); // secrets.json is in .gitignore
+}
 const cookieSessionMiddleware = cookieSession({
-    secret: cookieSecret,
+    secret: secrets.COOKIE_SECRET,
     maxAge: 1000 * 60 * 60 * 24 * 90
 });
 
