@@ -157,6 +157,9 @@ io.on('connection', async socket => {
     try {
         let resp = await db.getChatMessages();
         let chatMessages = resp.rows.reverse();
+        chatMessages.map(message => {
+            message.created_at = message.created_at.toLocaleString();
+        });
         socket.emit("chatMessages", chatMessages);
     } catch(err) {
         console.log("err in app.get('/chatMessages'", err);
