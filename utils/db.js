@@ -132,3 +132,14 @@ module.exports.addChatMessage = function addChatMessage(message, userId) {
         RETURNING id, created_at;
         `, [message, userId]);
 };
+
+
+module.exports.getChatMessage = function getChatMessage(messageId) {
+    return db.query(`
+        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at
+        FROM chat_messages
+        JOIN users
+        ON users.id = chat_messages.user_id
+        WHERE chat_messages.id = $1;
+        `,[messageId]);
+};

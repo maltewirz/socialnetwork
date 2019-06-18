@@ -233,27 +233,18 @@ server.listen(8080, function() {
     console.log("I'm listening on 8080 and proxy on 8081.");
 });
 
-
 io.on('connection', socket => {
-    const {userId, first, last, pic_url} = socket.request.session;
+    const {userId} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
     }
-
     socket.emit("chatMessages");
-
     socket.on("newCommentComing", async function(data) {
         try {
             let resp = await db.addChatMessage(data.message, userId);
-            io.sockets.emit("chatMessage", {
-                message: data.message,
-                id: resp.rows[0].id,
-                created_at: resp.rows[0].created_at,
-                first: first,
-                last: last,
-                user_id: userId,
-                pic_url: pic_url
-            });
+            let messageId = resp.rows[0].id;
+            let respPic = await db.getChatMessage(messageId);
+            io.sockets.emit("chatMessage", respPic.rows);
         } catch(err) {
             console.log(`err in socket.on("newCommentComing"`, err);
         }
