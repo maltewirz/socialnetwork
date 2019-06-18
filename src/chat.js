@@ -20,7 +20,6 @@ export function Chat(props) {
     if (!props.chatMessages) {
         return <div> Loading </div>;
     }
-    console.log(props.chatMessages);
 
     return(
 

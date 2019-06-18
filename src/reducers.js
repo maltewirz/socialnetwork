@@ -34,5 +34,13 @@ export function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "ADD_CHAT_MESSAGE") {
+        console.log("inside reducer",action.chatMessage);
+        return {
+            ...state,
+            chatMessages: state.chatMessages.concat(action.chatMessage)
+        };
+    }
+
     return state;
 }

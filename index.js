@@ -196,7 +196,7 @@ app.post(`/changeFriendRelation`, async (req, res) => {
             res.json({button: "Cancel Friend Request"});
         }
     } catch(err) {
-        console.log("app.post(`/addFriendRelation`", err);
+        console.log("err in app.post(`/addFriendRelation`", err);
         res.json({button: "Send Friend Request"});
     }
 });
@@ -214,7 +214,7 @@ app.get('/friends-wannabes', async (req, res) => {
 app.get('/chatMessages', async (req, res) => {
     try {
         let resp = await db.getChatMessages();
-        res.json(resp.rows);
+        res.json(resp.rows.reverse());
     } catch(err) {
         console.log("err in app.get('/chatMessages'", err);
     }
@@ -249,11 +249,11 @@ io.on('connection', socket => {
             let resp = await db.addChatMessage(data.message, userId);
             io.sockets.emit("chatMessage", {
                 message: data.message,
-                message_id: resp.rows[0].id,
+                id: resp.rows[0].id,
                 created_at: resp.rows[0].created_at,
                 first: first,
                 last: last,
-                userId: userId
+                user_id: userId
             });
         } catch(err) {
             console.log(`err in socket.on("newCommentComing"`, err);
