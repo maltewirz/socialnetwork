@@ -150,22 +150,27 @@ server.listen(8080, function() {
     console.log("I'm listening on 8080 and proxy on 8081.");
 });
 
+
+
 io.on('connection', async socket => {
     const {userId} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
     }
 
-    /// onlineUsers collection
+    /// function for online users 
+    async function onlineUsersProcessing(onlineUsersArray) {
+        onlineUsersArray = Object.values(onlineUsers);
+        let resp = await db.getUsersArray(onlineUsersArray);
+        io.sockets.emit("usersOnline", resp.rows);
+    }
+    //actual processing of online users
     onlineUsers[socket.id] = userId;
-    socket.on('disconnect', () => {
+    onlineUsersProcessing(onlineUsersArray);
+    socket.on('disconnect', async () => {
         delete onlineUsers[socket.id];
+        onlineUsersProcessing(onlineUsersArray);
     });
-
-    //adding user to array and emitting globally
-    onlineUsersArray = Object.values(onlineUsers);
-    let resp = await db.getUsersArray(onlineUsersArray);
-    io.sockets.emit("usersOnline", resp.rows);
 
     //getting historic chat messages on first load
     try {
