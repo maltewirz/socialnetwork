@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import { ProfilePic } from './profilepic';
 import { Link } from 'react-router-dom';
 import { socket } from './socket';
+import { useEnter } from './hooks';
 
 export function Chat(props) {
     const [newComment, setNewComment] = useState("");
     const elemRef = useRef();
+
+    useEnter(submit);
 
     useEffect(()=> {
         if (elemRef.current) {

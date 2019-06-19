@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "./axios";
+import { useEnter } from './hooks';
 
 export function BioEditor(props) {
     const [bioLocal, setBioLocal] = useState("");
     const [bioVisible, setBioVisible] = useState(false);
+
+    useEnter(submit);
 
     async function submit() {
         if (bioLocal == "" || bioLocal == undefined) {
