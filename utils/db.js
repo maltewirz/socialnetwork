@@ -151,3 +151,11 @@ module.exports.getUsersArray = function getUsersArray(onlineUsersArray) {
         WHERE id = ANY($1);
         `, [onlineUsersArray]);
 };
+
+
+//delting   FINAL
+// DELETE FROM users
+// WHERE id = $1;
+//
+// DELETE FROM friendships
+// WHERE sender_id = $1 OR receiver_id = $1;

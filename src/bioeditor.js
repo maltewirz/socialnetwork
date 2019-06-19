@@ -34,6 +34,11 @@ export function BioEditor(props) {
         setBioLocal(target.value);
     }
 
+    async function deleteProfile() {
+        console.log("clickie");
+        await axios.post("/deleteProfile");
+    }
+
     return (
         <div>
             {props.bio && !bioVisible &&
@@ -54,6 +59,8 @@ export function BioEditor(props) {
                     <button className="saveButton" type="submit" onClick={() => submit()}>Save</button>
                 </div>
             }
+
+            <button onClick={() => deleteProfile()}> Delete profile </button>
         </div>
     );
 }

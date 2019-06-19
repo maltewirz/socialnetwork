@@ -137,6 +137,10 @@ app.get('/friends-wannabes', async (req, res) => {
     }
 });
 
+app.post('/deleteProfile', async (req, res) => {
+    
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
@@ -158,7 +162,7 @@ io.on('connection', async socket => {
         return socket.disconnect(true);
     }
 
-    /// function for online users 
+    /// function for online users
     async function onlineUsersProcessing(onlineUsersArray) {
         onlineUsersArray = Object.values(onlineUsers);
         let resp = await db.getUsersArray(onlineUsersArray);

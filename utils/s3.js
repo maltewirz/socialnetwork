@@ -12,6 +12,13 @@ const client = knox.createClient({
     bucket: "spiced-bucket"
 });
 
+module.exports.deletePic = function deletePic(filename) {
+    let key = filename.substring(39)
+    client.del(key).on('response', function(res) {
+        console.log(res.statusCode, res.headers);
+    }).end();
+};
+
 module.exports.upload = function(req, res, next) {
     if (!req.file) {
         return res.sendStatus(500);

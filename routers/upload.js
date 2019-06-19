@@ -23,6 +23,12 @@ const uploader = multer({
 });
 
 router.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
+    let { rows } = await db.getUser(req.session.userId);
+    console.log(rows[0].pic_url);
+    if (rows[0].pic_url != null) {
+        console.log("here");
+        s3.deletePic(rows[0].pic_url);
+    }
     let url = `https://s3.amazonaws.com/spiced-bucket/${req.file.filename}`;
     if (req.file) {
         try {
