@@ -13,9 +13,9 @@ const client = knox.createClient({
 });
 
 module.exports.deletePic = function deletePic(filename) {
-    let key = filename.substring(39)
-    client.del(key).on('response', function(res) {
-        console.log(res.statusCode, res.headers);
+    let key = filename.substring(39);
+    client.del(key).on('response', function() {
+        // console.log(res.statusCode, res.headers);
     }).end();
 };
 
@@ -34,6 +34,12 @@ module.exports.upload = function(req, res, next) {
     s3Request.on("response", s3Response => {
         const wasSuccessful = s3Response.statusCode == 200;
         if (wasSuccessful) {
+            try {
+                fs.unlinkSync(req.file.path);
+            } catch(err) {
+                console.log("err in unlinking file", err);
+                next();
+            }
             next();
         } else {
             res.sendStatus(500);
