@@ -39,3 +39,10 @@ export async function chatMessage(msg) {
         chatMessage: msg
     };
 }
+
+export async function usersOnline(users) {
+    return {
+        type: "USERS_ONLINE",
+        usersOnline: users
+    };
+}

@@ -7,6 +7,8 @@ const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 let secrets;
+let onlineUsers = {};
+let onlineUsersArray =[];
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
 } else {
@@ -149,11 +151,23 @@ server.listen(8080, function() {
 });
 
 io.on('connection', async socket => {
-    // console.log(`Socket with id ${socket.id} just connected`);
     const {userId} = socket.request.session;
     if (!userId) {
         return socket.disconnect(true);
     }
+
+    /// onlineUsers collection
+    onlineUsers[socket.id] = userId;
+    socket.on('disconnect', () => {
+        delete onlineUsers[socket.id];
+    });
+
+    //adding user to array and emitting globally
+    onlineUsersArray = Object.values(onlineUsers);
+    let resp = await db.getUsersArray(onlineUsersArray);
+    io.sockets.emit("usersOnline", resp.rows);
+
+    //getting historic chat messages on first load
     try {
         let resp = await db.getChatMessages();
         let chatMessages = resp.rows.reverse();
@@ -161,7 +175,7 @@ io.on('connection', async socket => {
         chatMessages.map(message => {
             message.createdat = message.createdat.toLocaleString();
         });
-        socket.emit("chatMessages", chatMessages);
+        io.sockets.emit("chatMessages", chatMessages);
     } catch(err) {
         console.log("err in app.get('/chatMessages'", err);
     }
@@ -177,7 +191,5 @@ io.on('connection', async socket => {
             console.log(`err in socket.on("newCommentComing"`, err);
         }
     });
-    // socket.on('disconnect', () => {
-    //     console.log(`Socket with id ${socket.id} just disconnected`);
-    // });
+
 });

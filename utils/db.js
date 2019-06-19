@@ -143,3 +143,11 @@ module.exports.getChatMessage = function getChatMessage(messageId) {
         WHERE chat_messages.id = $1;
         `,[messageId]);
 };
+
+module.exports.getUsersArray = function getUsersArray(onlineUsersArray) {
+    return db.query(`
+        SELECT first, last, pic_url as picurl, id
+        FROM users
+        WHERE id = ANY($1);
+        `, [onlineUsersArray]);
+};

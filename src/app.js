@@ -10,6 +10,7 @@ import { ProfilePic } from "./profilepic";
 import { BioEditor } from "./bioeditor";
 import { OtherProfile } from "./otherprofile";
 import { FindPeople } from './findpeople';
+import Online from './online';
 import Chat from './chat';
 import Friends from './friends';
 
@@ -46,6 +47,7 @@ export function App() {
                     <Link to="/users"> Find people </Link>
                     <Link to="/friends">  Friends</Link>
                     <Link to="/chat"> Chat </Link>
+                    <Link to="/online"> Online </Link>
                     <a href="/logout"> Logout </a>
                     <ProfilePic
                         imageUrl={state.pic_url}
@@ -100,6 +102,7 @@ export function App() {
                     <Route path="/users" component={FindPeople} />
                     <Route path="/friends" component={Friends} />
                     <Route path="/chat" component={Chat} />
+                    <Route path="/online" component={Online} />
                 </div>
                 <div className="uploader">
                     {uploaderVisible &&
