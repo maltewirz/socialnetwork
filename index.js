@@ -3,6 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, { origins: 'localhost:8080' }); // add homepage herokuapp here later
 const db = require("./utils/db");
+const s3 = require("./utils/s3");
 const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
@@ -138,7 +139,18 @@ app.get('/friends-wannabes', async (req, res) => {
 });
 
 app.post('/deleteProfile', async (req, res) => {
-    
+    try {
+        let { rows } = await db.getUser(req.session.userId);
+        if (rows[0].pic_url != null) {
+            s3.deletePic(rows[0].pic_url);
+        }
+        await db.deleteUserRelations(req.session.userId);
+        await db.deleteUserMessages(req.session.userId);
+        await db.deleteUser(req.session.userId);
+        res.redirect("/logout");
+    } catch(err) {
+        console.log("err in deleteProfile", err);
+    }
 });
 
 app.get("/logout", (req, res) => {

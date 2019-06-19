@@ -35,8 +35,8 @@ export function BioEditor(props) {
     }
 
     async function deleteProfile() {
-        console.log("clickie");
         await axios.post("/deleteProfile");
+
     }
 
     return (
@@ -59,8 +59,11 @@ export function BioEditor(props) {
                     <button className="saveButton" type="submit" onClick={() => submit()}>Save</button>
                 </div>
             }
+            <form onClick={() => deleteProfile()}>
+                <a href="/logout">  Delete </a>
+            </form>
 
-            <button onClick={() => deleteProfile()}> Delete profile </button>
+
         </div>
     );
 }

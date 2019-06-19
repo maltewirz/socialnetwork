@@ -152,10 +152,23 @@ module.exports.getUsersArray = function getUsersArray(onlineUsersArray) {
         `, [onlineUsersArray]);
 };
 
+module.exports.deleteUser = function deleteUser(userId) {
+    return db.query(`
+        DELETE FROM users
+        WHERE id = $1;
+        `,[userId]);
+};
 
-//delting   FINAL
-// DELETE FROM users
-// WHERE id = $1;
-//
-// DELETE FROM friendships
-// WHERE sender_id = $1 OR receiver_id = $1;
+module.exports.deleteUserRelations = function deleteUserRelations(userId) {
+    return db.query(`
+        DELETE FROM friendships
+        WHERE sender_id = $1 OR receiver_id = $1;
+        `,[userId]);
+};
+
+module.exports.deleteUserMessages = function deleteUserMessages(userId) {
+    return db.query(`
+        DELETE FROM chat_messages
+        WHERE user_id = $1;
+        `,[userId]);
+};
