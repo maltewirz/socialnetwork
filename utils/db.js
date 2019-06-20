@@ -170,7 +170,7 @@ module.exports.deleteUserRelations = function deleteUserRelations(userId) {
 module.exports.deleteUserMessages = function deleteUserMessages(userId) {
     return db.query(`
         DELETE FROM chat_messages
-        WHERE user_id = $1;
+        WHERE user_id = $1 OR recipient_id = $1;
         `,[userId]);
 };
 
