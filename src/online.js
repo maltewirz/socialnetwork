@@ -10,7 +10,6 @@ export class Online extends React.Component {
     }
 
     render() {
-        console.log(this.props.usersOnline);
         return (
             <div>
                 <h1> Online Users </h1>
