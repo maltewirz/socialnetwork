@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 export function Friends(props) {
 
     useEffect(() => {
+
         props.dispatch(getFriendsWannabes());
     }, []);
 
@@ -16,12 +17,13 @@ export function Friends(props) {
     }
 
     return(
+
         <div>
             <h1> Friends </h1>
             {props.friends.length == 0 && <div> No Friends yet! </div>}
             {props.friends && props.friends.map(person => {
                 return (
-                    <div className="profileBox" key={ person.pic_url }>
+                    <div className="profileBox" key={ person.id }>
                         <div>
                             <ProfilePic
                                 imageUrl={person.pic_url}
