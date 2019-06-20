@@ -12,7 +12,9 @@ export class PrivateChat extends React.Component {
     }
 
     componentDidMount() {
-        // console.log("recipient id",this.props.match.params.id);
+        socket.emit("loadPrivateMessages", {
+            targetId: this.props.match.params.id
+        });
     }
 
     submit() {
@@ -48,7 +50,6 @@ export class PrivateChat extends React.Component {
                                         <div className="profileNameBox">
                                             { comment.first } { comment.last }
                                         </div>
-
                                     </Link>
                                     <div> { comment.message } </div>
                                     <div> { comment.createdat } </div>

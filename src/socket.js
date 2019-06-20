@@ -1,5 +1,5 @@
 import * as io from "socket.io-client";
-import { chatMessages, chatMessage, usersOnline } from './actions';
+import { chatMessages, chatMessage, usersOnline, privateMessage, loadPrivateMessages } from './actions';
 
 export let socket;
 
@@ -13,7 +13,16 @@ export function initSocket(store) {
 
         socket.on("usersOnline", users => {
             store.dispatch(usersOnline(users));
-        } );
+        });
+
+        socket.on("privateMessage", msg => {
+            store.dispatch(privateMessage(msg));
+        });
+
+        socket.on("loadPrivateMessages", msgs => {
+            store.dispatch(loadPrivateMessages(msgs));
+        });
+
     }
     return socket;
 }

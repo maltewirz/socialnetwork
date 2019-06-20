@@ -46,3 +46,18 @@ export async function usersOnline(users) {
         usersOnline: users
     };
 }
+
+export async function privateMessage(msg) {
+    return {
+        type: "ADD_PRIVATE_MESSAGE",
+        privateChatMessage: msg
+
+    };
+}
+
+export async function loadPrivateMessages(msgs) {
+    return {
+        type: "LOAD_PRIVATE_MESSAGES",
+        privateMessages: msgs
+    };
+}

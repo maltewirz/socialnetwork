@@ -116,10 +116,11 @@ module.exports.getFriendsWannabes = function getFriendsWannabes(myId) {
 
 module.exports.getChatMessages = function getChatMessages() {
     return db.query(`
-        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at AS createdat
+        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at AS createdat, recipient_id
         FROM chat_messages
         JOIN users
         ON users.id = chat_messages.user_id
+        WHERE recipient_id IS null
         ORDER BY chat_messages.id DESC
         LIMIT 10;
         `);
@@ -177,6 +178,18 @@ module.exports.addPrivateChatMessage = function addPrivateChatMessage(msg, targe
     return db.query(`
         INSERT INTO chat_messages (message, recipient_id, user_id)
         VALUES ($1, $2, $3)
-        RETURNING id, created_at;
+        RETURNING id;
         `, [msg, targetId, userId]);
+};
+
+
+module.exports.getPrivateMessages = function getPrivateMessages(recipient_id, userId) {
+    return db.query(`
+        SELECT message, user_id, first, last, pic_url, chat_messages.id, chat_messages.created_at AS createdat
+        FROM chat_messages
+        JOIN users
+        ON users.id = chat_messages.user_id
+        WHERE chat_messages.recipient_id = $1 AND chat_messages.user_id = $2
+        OR chat_messages.recipient_id = $2 AND chat_messages.user_id = $1;
+        `,[recipient_id, userId]);
 };

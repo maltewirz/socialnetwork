@@ -192,7 +192,6 @@ io.on('connection', async socket => {
     try {
         let resp = await db.getChatMessages();
         let chatMessages = resp.rows.reverse();
-
         chatMessages.map(message => {
             message.createdat = message.createdat.toLocaleString();
         });
@@ -213,11 +212,24 @@ io.on('connection', async socket => {
         }
     });
 
+    socket.on("loadPrivateMessages", async function(data) {
+        let resp = await db.getPrivateMessages(data.targetId);
+        io.to(socket.id).emit('loadPrivateMessages', resp.rows);
+    });
+
+
     socket.on("newPrivateMessage", async function(data) {
         try {
             let resp = await db.addPrivateChatMessage(data.message, data.targetId, userId);
-            console.log("resp from insert",resp.rows[0]);
-            //emit to respective socket id
+            let messageId = resp.rows[0].id;
+            for (let socketIdRecipient in onlineUsers) {
+                if (onlineUsers[socketIdRecipient] == data.targetId) {
+                    let respMsg = await db.getChatMessage(messageId);
+                    io.to(socketIdRecipient).emit('privateMessage', respMsg.rows[0]);
+                    io.to(socket.id).emit('privateMessage', respMsg.rows[0]);
+                }
+            }
+
         } catch(err) {
             console.log(`err in socket.on('newPrivateMessage`,err);
         }
