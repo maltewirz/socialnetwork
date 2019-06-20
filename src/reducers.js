@@ -52,7 +52,7 @@ export function reducer(state = {}, action) {
         if (state.privateChatMessages == undefined) {
             return {
                 ...state,
-                privateChatMessages: action.privateChatMessage
+                privateChatMessages: [action.privateChatMessage]
             };
         } else {
             return {

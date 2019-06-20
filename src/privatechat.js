@@ -62,38 +62,45 @@ export class PrivateChat extends React.Component {
         });
     }
 
+
+
     render() {
-        return(
-            <div>
-                <h1> Private Chat </h1>
-                <div className="chatBox" ref={this.elemRef}>
-                    {this.props.privateChatMessages && this.props.privateChatMessages.map(comment => {
-                        return (
-                            <div className="profileBox" key={ comment.id }>
-                                <div>
-                                    <ProfilePic
-                                        imageUrl={comment.pic_url}
-                                        first={comment.first}
-                                        last={comment.last}
-                                    />
+        if (!this.props.privateChatMessages) {
+            return <div> Loading </div>;
+        } else {
+            return(
+                <div>
+                    <h1> Private Chat </h1>
+                    <div className="chatBox" ref={this.elemRef}>
+                        {this.props.privateChatMessages && this.props.privateChatMessages.map(comment => {
+                            return (
+                                <div className="profileBox" key={ comment.id }>
+                                    <div>
+                                        <ProfilePic
+                                            imageUrl={comment.pic_url}
+                                            first={comment.first}
+                                            last={comment.last}
+                                        />
+                                    </div>
+                                    <div className="profileBoxBio">
+                                        <Link to={"/user/" + comment.user_id}>
+                                            <div className="profileNameBox">
+                                                { comment.first } { comment.last }
+                                            </div>
+                                        </Link>
+                                        <div> { comment.message } </div>
+                                        <div> { comment.createdat } </div>
+                                    </div>
                                 </div>
-                                <div className="profileBoxBio">
-                                    <Link to={"/user/" + comment.user_id}>
-                                        <div className="profileNameBox">
-                                            { comment.first } { comment.last }
-                                        </div>
-                                    </Link>
-                                    <div> { comment.message } </div>
-                                    <div> { comment.createdat } </div>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
+                    <input type="text" value={this.state.newMessage}  onChange={event => this.handleChange(event)} />
+                    <button type="submit" onClick={e => this.submit(e)}> Add Message </button>
                 </div>
-                <input type="text" value={this.state.newMessage}  onChange={event => this.handleChange(event)} />
-                <button type="submit" onClick={e => this.submit(e)}> Add Message </button>
-            </div>
-        );
+            );
+        }
+
     }
 }
 
