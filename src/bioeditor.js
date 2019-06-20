@@ -9,8 +9,11 @@ export function BioEditor(props) {
     useEnter(submit);
 
     async function submit() {
+        console.log("bioLocal", bioLocal);
         if (bioLocal == "" || bioLocal == undefined) {
             setBioLocal(null);
+            setBioVisible(false);
+            return;
         }
         try {
             let resp = await axios.post("/addBio", {
