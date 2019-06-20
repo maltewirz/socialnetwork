@@ -57,6 +57,7 @@ export function reducer(state = {}, action) {
 
     if (action.type == "LOAD_PRIVATE_MESSAGES") {
         return {
+            ...state,
             privateChatMessages: action.privateMessages
         };
     }

@@ -41,6 +41,7 @@ export async function chatMessage(msg) {
 }
 
 export async function usersOnline(users) {
+    console.log("getting usersOnline");
     return {
         type: "USERS_ONLINE",
         usersOnline: users

@@ -10,6 +10,7 @@ export class Online extends React.Component {
     }
 
     render() {
+        console.log(this.props.usersOnline);
         return (
             <div>
                 <h1> Online Users </h1>
@@ -29,6 +30,7 @@ export class Online extends React.Component {
                                         { user.first } { user.last }
                                     </div>
                                 </Link>
+                                <Link to={"/privatechat/" + user.id}><button> Private Chat </button></Link>
                             </div>
                         </div>
                     );
