@@ -13,7 +13,7 @@ export class Online extends React.Component {
         return (
             <div>
                 <h1> Online Users </h1>
-                {this.props.usersOnline.map(user => {
+                {this.props.usersOnline && this.props.usersOnline.map(user => {
                     return (
                         <div className="profileBox" key={ user.id }>
                             <div>

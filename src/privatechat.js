@@ -9,9 +9,10 @@ export class PrivateChat extends React.Component {
 
     constructor() {
         super();
-        this.state = {};
+        this.state = {newMessage: ''};
         this.submit = this.submit.bind(this);
         this.elemRef = React.createRef();
+
     }
 
     updateView() {
@@ -26,7 +27,10 @@ export class PrivateChat extends React.Component {
             targetId: this.props.match.params.id
         });
         window.addEventListener('keydown', this.submit);
+    }
 
+    componentDidUpdate() {
+        this.updateView();
     }
 
     componentWillUnmount() {
@@ -35,18 +39,28 @@ export class PrivateChat extends React.Component {
     }
 
     submit(e) {
-        if (e.keyCode === 13) {
+        if (e.type == "keydown" && e.keyCode === 13) {
             socket.emit("newPrivateMessage",{
                 message: this.state.newMessage,
                 targetId: this.props.match.params.id
             });
+            this.setState({
+                newMessage: ""
+            });
+        } else if (e.type != 'keydown') {
+            socket.emit("newPrivateMessage",{
+                message: this.state.newMessage,
+                targetId: this.props.match.params.id
+            });
+            this.setState({
+                newMessage: ""
+            });
         }
     }
 
-    handleInput({ target }) {
-        this.updateView();
+    handleChange(event) {
         this.setState({
-            newMessage: target.value
+            newMessage: event.target.value
         });
     }
 
@@ -78,8 +92,8 @@ export class PrivateChat extends React.Component {
                         );
                     })}
                 </div>
-                <input type="text"  onChange={e => this.handleInput(e)} />
-                <button type="submit" onClick={() => this.submit()}> Add Message </button>
+                <input type="text" value={this.state.newMessage}  onChange={event => this.handleChange(event)} />
+                <button type="submit" onClick={e => this.submit(e)}> Add Message </button>
             </div>
         );
     }

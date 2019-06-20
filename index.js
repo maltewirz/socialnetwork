@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: 'localhost:8080' }); // add homepage herokuapp here later
+const io = require('socket.io')(server, { origins: '192.168.*:8080, localhost:8080' }); // add homepage herokuapp here later
 const db = require("./utils/db");
 const s3 = require("./utils/s3");
 const csurf = require("csurf");
@@ -214,7 +214,6 @@ io.on('connection', async socket => {
 
     socket.on("loadPrivateMessages", async function(data) {
         let resp = await db.getPrivateMessages(data.targetId, userId);
-        console.log("getting msgs", resp.rows, data.targetId);
         io.to(socket.id).emit('loadPrivateMessages', resp.rows);
     });
 
