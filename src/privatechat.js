@@ -4,27 +4,47 @@ import { ProfilePic } from './profilepic';
 import { Link } from 'react-router-dom';
 import { socket } from './socket';
 
+
 export class PrivateChat extends React.Component {
 
     constructor() {
         super();
         this.state = {};
+        this.submit = this.submit.bind(this);
+        this.elemRef = React.createRef();
+    }
+
+    updateView() {
+        if (this.elemRef.current) {
+            let bottomPositionComments = this.elemRef.current.scrollHeight + this.elemRef.current.offsetHeight;
+            this.elemRef.current.scrollTop = bottomPositionComments;
+        }
     }
 
     componentDidMount() {
         socket.emit("loadPrivateMessages", {
             targetId: this.props.match.params.id
         });
+        window.addEventListener('keydown', this.submit);
+
     }
 
-    submit() {
-        socket.emit("newPrivateMessage",{
-            message: this.state.newMessage,
-            targetId: this.props.match.params.id
-        });
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.submit);
+
+    }
+
+    submit(e) {
+        if (e.keyCode === 13) {
+            socket.emit("newPrivateMessage",{
+                message: this.state.newMessage,
+                targetId: this.props.match.params.id
+            });
+        }
     }
 
     handleInput({ target }) {
+        this.updateView();
         this.setState({
             newMessage: target.value
         });
@@ -34,7 +54,7 @@ export class PrivateChat extends React.Component {
         return(
             <div>
                 <h1> Private Chat </h1>
-                <div className="chatBox" >
+                <div className="chatBox" ref={this.elemRef}>
                     {this.props.privateChatMessages && this.props.privateChatMessages.map(comment => {
                         return (
                             <div className="profileBox" key={ comment.id }>

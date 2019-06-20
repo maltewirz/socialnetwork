@@ -213,7 +213,8 @@ io.on('connection', async socket => {
     });
 
     socket.on("loadPrivateMessages", async function(data) {
-        let resp = await db.getPrivateMessages(data.targetId);
+        let resp = await db.getPrivateMessages(data.targetId, userId);
+        console.log("getting msgs", resp.rows, data.targetId);
         io.to(socket.id).emit('loadPrivateMessages', resp.rows);
     });
 
