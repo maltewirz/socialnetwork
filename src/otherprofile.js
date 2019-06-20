@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from "./axios";
 import { FriendButton } from './friendbutton';
+import { ProfilePic } from './profilepic';
 
 export function OtherProfile(props) {
     const [error, setError] = useState("");
     const [state, setState] = useState({});
+
 
     useEffect(() => {
         (async () => {
@@ -39,7 +41,11 @@ export function OtherProfile(props) {
             {!error  &&
                 <div className="profileBox">
                     <div>
-                        <img src={state.pic_url} />
+                        <ProfilePic
+                            imageUrl={state.pic_url}
+                            first={state.first}
+                            last={state.last}
+                        />
                     </div>
                     <div className="profileBoxBio">
                         <div className="profileNameBox">{state.first} {state.last}</div>

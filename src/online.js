@@ -29,7 +29,6 @@ export class Online extends React.Component {
                                         { user.first } { user.last }
                                     </div>
                                 </Link>
-                                <Link to={"/privatechat/" + user.id}><button> Private Chat </button></Link>
                             </div>
                         </div>
                     );

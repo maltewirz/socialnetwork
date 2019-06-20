@@ -6,13 +6,11 @@ import { socket } from './socket';
 
 
 export class PrivateChat extends React.Component {
-
     constructor() {
         super();
         this.state = {newMessage: ''};
         this.submit = this.submit.bind(this);
         this.elemRef = React.createRef();
-
     }
 
     updateView() {
