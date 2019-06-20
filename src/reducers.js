@@ -49,10 +49,17 @@ export function reducer(state = {}, action) {
     }
 
     if (action.type == "ADD_PRIVATE_MESSAGE") {
-        return {
-            ...state,
-            privateChatMessages: state.privateChatMessages.concat(action.privateChatMessage)
-        };
+        if (state.privateChatMessages == undefined) {
+            return {
+                ...state,
+                privateChatMessages: action.privateChatMessage
+            };
+        } else {
+            return {
+                ...state,
+                privateChatMessages: state.privateChatMessages.concat(action.privateChatMessage)
+            };
+        }
     }
 
     if (action.type == "LOAD_PRIVATE_MESSAGES") {
