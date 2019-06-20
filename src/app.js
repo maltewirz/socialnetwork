@@ -10,6 +10,7 @@ import { ProfilePic } from "./profilepic";
 import { BioEditor } from "./bioeditor";
 import { OtherProfile } from "./otherprofile";
 import { FindPeople } from './findpeople';
+import PrivateChat from './privatechat';
 import Online from './online';
 import Chat from './chat';
 import Friends from './friends';
@@ -103,6 +104,7 @@ export function App() {
                     <Route path="/friends" component={Friends} />
                     <Route path="/chat" component={Chat} />
                     <Route path="/online" component={Online} />
+                    <Route path="/privatechat/:id" component={PrivateChat} />
                 </div>
                 <div className="uploader">
                     {uploaderVisible &&

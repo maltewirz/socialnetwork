@@ -38,6 +38,8 @@ export function Friends(props) {
                             <button onClick={
                                 () => props.dispatch(endFriend(person.id))
                             }> End Friendship </button>
+                            <Link to={"/privatechat/" + person.id}><button> Private Chat </button></Link>
+
                         </div>
                     </div>
                 );

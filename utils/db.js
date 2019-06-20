@@ -172,3 +172,11 @@ module.exports.deleteUserMessages = function deleteUserMessages(userId) {
         WHERE user_id = $1;
         `,[userId]);
 };
+
+module.exports.addPrivateChatMessage = function addPrivateChatMessage(msg, targetId, userId) {
+    return db.query(`
+        INSERT INTO chat_messages (message, recipient_id, user_id)
+        VALUES ($1, $2, $3)
+        RETURNING id, created_at;
+        `, [msg, targetId, userId]);
+};

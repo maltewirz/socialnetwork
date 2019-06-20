@@ -213,4 +213,14 @@ io.on('connection', async socket => {
         }
     });
 
+    socket.on("newPrivateMessage", async function(data) {
+        try {
+            let resp = await db.addPrivateChatMessage(data.message, data.targetId, userId);
+            console.log("resp from insert",resp.rows[0]);
+            //emit to respective socket id
+        } catch(err) {
+            console.log(`err in socket.on('newPrivateMessage`,err);
+        }
+    });
+
 });
