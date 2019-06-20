@@ -176,9 +176,13 @@ io.on('connection', async socket => {
 
     /// function for online users
     async function onlineUsersProcessing(onlineUsersArray) {
-        onlineUsersArray = Object.values(onlineUsers);
-        let resp = await db.getUsersArray(onlineUsersArray);
-        io.sockets.emit("usersOnline", resp.rows);
+        try {
+            onlineUsersArray = Object.values(onlineUsers);
+            let resp = await db.getUsersArray(onlineUsersArray);
+            io.sockets.emit("usersOnline", resp.rows);
+        } catch(err) {
+            console.log(`err in onlineUsersProcessing`,err);
+        }
     }
     //actual processing of online users
     onlineUsers[socket.id] = userId;
