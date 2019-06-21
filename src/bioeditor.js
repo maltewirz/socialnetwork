@@ -9,19 +9,16 @@ export function BioEditor(props) {
     useEnter(submit);
 
     async function submit() {
-        console.log("biolocal", bioLocal);
-        console.log("props.bio", props);
         if (bioLocal == "" || bioLocal == undefined) {
             setBioLocal("");
-            // setBioVisible(false);
-            // return;
+            setBioVisible(false);
+            return;
         }
         try {
             let resp = await axios.post("/addBio", {
                 bio: bioLocal
             });
             if (resp.data.success) {
-                console.log("getting in resp succcess");
                 setBioLocal("");
                 setBioVisible(false);
                 props.setBio(bioLocal);
@@ -36,7 +33,6 @@ export function BioEditor(props) {
     }
 
     function handleInput({ target} ) {
-        console.log("running handleInput");
         setBioLocal(target.value);
     }
 

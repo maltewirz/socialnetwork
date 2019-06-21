@@ -18,7 +18,6 @@ import Friends from './friends';
 export function App() {
     const [state, setState] = useState({});
     const [uploaderVisible, setUploaderVisible] = useState(false);
-    const [bio, setBio] = useState("");
 
     useEffect(() => {
         let abort;
@@ -35,9 +34,8 @@ export function App() {
         return () => {
             abort = true;
         };
-    },[bio]);
+    },[state.bio]);
 
-    console.log("state in app.js", state);
     if (!state.id) {
         return <img src="/spinner.gif"/>;
     }
@@ -78,10 +76,12 @@ export function App() {
                                 }
                                 bioEditor={
                                     <BioEditor
-                                        bio={bio}
+                                        bio={state.bio}
                                         bioVisible={state.bioVisible}
                                         setBio={bio => {
-                                            setBio(bio);
+                                            setState({
+                                                bio: bio
+                                            });
                                         }}
                                     />
                                 }
