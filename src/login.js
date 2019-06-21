@@ -19,12 +19,12 @@ export function Login() {
             <p> { error } </p>
             <input
                 name="email"
-                placeholder="email"
+                placeholder="Email"
                 onChange={handleChange}
             />
             <input
                 name="password"
-                placeholder="password"
+                placeholder="Password"
                 type="password"
                 onChange={handleChange}
             />

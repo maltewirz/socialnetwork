@@ -19,22 +19,22 @@ export function Registration() {
             <p> {error} </p>
             <input
                 name="first"
-                placeholder="first"
+                placeholder="First Name"
                 onChange={handleChange}
             />
             <input
                 name="last"
-                placeholder="last"
+                placeholder="Last Name"
                 onChange={handleChange}
             />
             <input
                 name="email"
-                placeholder="email"
+                placeholder="Email"
                 onChange={handleChange}
             />
             <input
                 name="password"
-                placeholder="password 8 char"
+                placeholder="Password (min 8 characters)"
                 type="password"
                 onChange={handleChange}
             />
