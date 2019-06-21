@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import { Logo } from './logo';
 import { Link } from 'react-router-dom';
 import { useStatefulFields, useAuthSubmit, useEnter} from './hooks';
@@ -34,5 +34,4 @@ export function Login() {
             </p>
         </div>
     );
-
 }

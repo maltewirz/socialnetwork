@@ -147,7 +147,10 @@ app.post('/deleteProfile', async (req, res) => {
         await db.deleteUserRelations(req.session.userId);
         await db.deleteUserMessages(req.session.userId);
         await db.deleteUser(req.session.userId);
-        res.redirect("/logout");
+        req.session = null;
+        res.json({
+            success: true
+        });
     } catch(err) {
         console.log("err in deleteProfile", err);
     }

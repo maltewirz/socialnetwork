@@ -9,16 +9,19 @@ export function BioEditor(props) {
     useEnter(submit);
 
     async function submit() {
+        console.log("biolocal", bioLocal);
+        console.log("props.bio", props);
         if (bioLocal == "" || bioLocal == undefined) {
-            setBioLocal(null);
-            setBioVisible(false);
-            return;
+            setBioLocal("");
+            // setBioVisible(false);
+            // return;
         }
         try {
             let resp = await axios.post("/addBio", {
                 bio: bioLocal
             });
             if (resp.data.success) {
+                console.log("getting in resp succcess");
                 setBioLocal("");
                 setBioVisible(false);
                 props.setBio(bioLocal);
@@ -33,12 +36,15 @@ export function BioEditor(props) {
     }
 
     function handleInput({ target} ) {
+        console.log("running handleInput");
         setBioLocal(target.value);
     }
 
     async function deleteProfile() {
-        await axios.post("/deleteProfile");
-
+        let resp = await axios.post("/deleteProfile");
+        if (resp.data.success == true) {
+            location.replace("/welcome");
+        }
     }
 
     return (
@@ -58,14 +64,10 @@ export function BioEditor(props) {
                 <div>
                     <p>Enter your bio here:</p>
                     <textarea className="textarea" defaultValue={props.bio} onChange={e => handleInput(e)}/>
-                    <button className="saveButton" type="submit" onClick={() => submit()}>Save</button>
+                    <button className="saveButton" onClick={() => submit()}>Save</button>
                 </div>
             }
-            <form onClick={() => deleteProfile()}>
-                <a href="/logout">  Delete </a>
-            </form>
-
-
+            <button onClick={() => deleteProfile()}> Delete </button>
         </div>
     );
 }
