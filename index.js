@@ -7,7 +7,6 @@ const s3 = require("./utils/s3");
 const csurf = require("csurf");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
-const bodyParser = require('body-parser');
 let secrets;
 let onlineUsers = {};
 let onlineUsersArray =[];
@@ -24,10 +23,7 @@ const cookieSessionMiddleware = cookieSession({
 ////////////////////////// Modules
 app.use(compression());
 app.use(express.static("./public")); //access to logos etc
-// app.use(express.json()); // enables req.body
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(express.json()); // enables req.body
 app.use(cookieSessionMiddleware);
 io.use(function(socket, next) {
     cookieSessionMiddleware(socket.request, socket.request.res, next);
