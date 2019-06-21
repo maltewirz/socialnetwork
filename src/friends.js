@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 export function Friends(props) {
 
     useEffect(() => {
-
         props.dispatch(getFriendsWannabes());
     }, []);
 
@@ -17,7 +16,6 @@ export function Friends(props) {
     }
 
     return(
-
         <div>
             <h1> Friends </h1>
             {props.friends.length == 0 && <div> No Friends yet! </div>}
@@ -82,7 +80,6 @@ const mapStateToProps = state => {
     return {
         friends: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => friend.accepted),
         wannabes: state.listFriendsWannabes && state.listFriendsWannabes.filter(friend => !friend.accepted)
-
     };
 };
 

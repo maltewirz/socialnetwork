@@ -3,7 +3,6 @@ import { HashRouter, Route } from "react-router-dom";
 import { Login } from "./login";
 import { Registration } from "./registration";
 
-
 export function Welcome() {
     return (
         <HashRouter>

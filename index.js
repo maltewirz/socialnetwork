@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: '192.168.*:8080, localhost:8080' }); // add homepage herokuapp here later
+const io = require('socket.io')(server, { origins: '192.168.*:8080, localhost:8080' });
 const db = require("./utils/db");
 const s3 = require("./utils/s3");
 const csurf = require("csurf");
@@ -11,13 +11,13 @@ let secrets;
 let onlineUsers = {};
 let onlineUsersArray =[];
 if (process.env.NODE_ENV == "production") {
-    secrets = process.env; // in prod the secrets are environment variables
+    secrets = process.env;
 } else {
-    secrets = require("./secrets"); // secrets.json is in .gitignore
+    secrets = require("./secrets");
 }
 const cookieSessionMiddleware = cookieSession({
     secret: secrets.COOKIE_SECRET,
-    maxAge: 1000 * 60 * 60 * 24 * 90
+    maxAge: 1000 * 60 * 60 * 24 * 14
 });
 
 ////////////////////////// Modules
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//Middleware: redirects for logged in users
+//Middleware: Redirects logged in users
 function checkLoggedIn(req, res, next) {
     if (req.session.userId) {
         res.redirect("/");
@@ -58,7 +58,7 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//MiddlewareGlobal redirect for unregistered users
+//Middleware: Global redirect for unregistered users
 app.use((req, res, next) => {
     if (
         !req.session.userId &&
@@ -177,7 +177,7 @@ io.on('connection', async socket => {
         return socket.disconnect(true);
     }
 
-    /// function for online users
+    // Online users array processing
     async function onlineUsersProcessing(onlineUsersArray) {
         try {
             onlineUsersArray = Object.values(onlineUsers);
@@ -187,7 +187,6 @@ io.on('connection', async socket => {
             console.log(`err in onlineUsersProcessing`,err);
         }
     }
-    //actual processing of online users
     onlineUsers[socket.id] = userId;
     onlineUsersProcessing(onlineUsersArray);
     socket.on('disconnect', async () => {
@@ -195,7 +194,7 @@ io.on('connection', async socket => {
         onlineUsersProcessing(onlineUsersArray);
     });
 
-    //getting historic chat messages on first load
+    // Getting historic chat messages on first load
     try {
         let resp = await db.getChatMessages();
         let chatMessages = resp.rows.reverse();

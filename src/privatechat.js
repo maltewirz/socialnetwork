@@ -62,8 +62,6 @@ export class PrivateChat extends React.Component {
         });
     }
 
-
-
     render() {
         if (!this.props.privateChatMessages) {
             return <div> Loading </div>;

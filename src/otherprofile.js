@@ -7,7 +7,6 @@ export function OtherProfile(props) {
     const [error, setError] = useState("");
     const [state, setState] = useState({});
 
-
     useEffect(() => {
         (async () => {
             let otherId = props.match.params.id;
@@ -32,7 +31,6 @@ export function OtherProfile(props) {
             }
         })();
     }, []);
-
 
     return (
         <div>
