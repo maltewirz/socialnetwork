@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: 'localhost:8080, https://socialnetwork-hackspace.herokuapp.com:*' });
+const io = require('socket.io')(server, { origins: 'localhost:8080, socialnetwork-hackspace.herokuapp.com:*' });
 const db = require("./utils/db");
 const s3 = require("./utils/s3");
 const csurf = require("csurf");
