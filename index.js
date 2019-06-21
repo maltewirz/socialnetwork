@@ -165,11 +165,11 @@ app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
-server.listen(8080, function() {
-    console.log("I'm listening on 8080 and proxy on 8081.");
-});
-
-
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log("I'm listening on 8080 and proxy on 8081.")
+    );
+}
 
 io.on('connection', async socket => {
     const {userId} = socket.request.session;
