@@ -165,11 +165,22 @@ app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
-if (require.main == module) {
-    app.listen(process.env.PORT || 8080, () =>
-        console.log("I'm listening on 8080 and proxy on 8081.")
-    );
-}
+// if (process.env.NODE_ENV != "production") {
+//     //     app.listen(process.env.PORT || 8080, () =>
+//     //         console.log("I'm listening on 8080 and proxy on 8081.")
+//     //     );
+//     server.listen(8080, function() {
+//         console.log("I'm listening on 8080 and proxy on 8081.");
+//     });
+// } else {
+//     server.listen(process.env.PORT, function() {
+//         console.log("I'm listening on Heroku");
+//     });
+// }
+
+server.listen(process.env.PORT || 8080, () =>
+    console.log("I'm listening on 8080 and proxy on 8081.")
+);
 
 io.on('connection', async socket => {
     const {userId} = socket.request.session;
